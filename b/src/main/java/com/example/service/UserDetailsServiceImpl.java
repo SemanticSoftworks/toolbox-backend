@@ -1,4 +1,4 @@
-package com.example.service.impl;
+package com.example.service;
 
 import com.example.domain.UserRole;
 import com.example.repositories.UserRepository;
