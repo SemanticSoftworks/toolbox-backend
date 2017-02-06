@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="springmodule" />
+        <module name="SpringModule" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="springmodule" target="1.8" />
+      <module name="SpringModule" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,4 +1,4 @@
-package com.example.RESTful;
+package com.example.controllers;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,4 +13,5 @@ public class UserController{
     public String getUser(@PathVariable Long id){
         return "user "+id;
     }
+
 }

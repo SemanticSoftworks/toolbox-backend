@@ -4,9 +4,4 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:component-scan base-package="com.example.repositories"/>
-    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="locations" value="classpath:db/migration"/>
-    </bean>
-
 </beans>
