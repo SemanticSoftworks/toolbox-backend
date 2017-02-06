@@ -1,6 +1,8 @@
 package com.example.domain;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 /**
  * This class (@class User) represents the user of the system
@@ -11,7 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    private Long id;
 
     @Column(name = "username", unique = true, length = 45)
     private String username;
@@ -28,6 +30,15 @@ public class User {
 
     private String firstName;
     private String lastName;
+
+    @Column(name = "email", unique = true, length = 45)
+    private String email;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Ad> ads;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Transaction> transactions;
 
     public User() {}
 
@@ -57,7 +68,6 @@ public class User {
         this.username = username;
     }
 
-
     public String getPassword() {
         return this.password;
     }
@@ -65,7 +75,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public boolean isEnabled() {
         return this.enabled;
@@ -75,7 +84,6 @@ public class User {
         this.enabled = enabled;
     }
 
-
     public Set<UserRole> getUserRole() {
         return this.userRole;
     }
@@ -84,12 +92,12 @@ public class User {
         this.userRole = userRole;
     }
 
-    public int getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -107,4 +115,16 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
+
+    public List<Ad> getAds() { return ads; }
+
+    public void setAds(List<Ad> ads) { this.ads = ads; }
+
+    public List<Transaction> getTransactions() { return transactions; }
+
+    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
 }

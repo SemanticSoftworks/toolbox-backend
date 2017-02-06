@@ -21,8 +21,7 @@ public class Role {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
-    public Role() {
-    }
+    public Role() {}
 
     public Role(String role) {
         this.role = role;
