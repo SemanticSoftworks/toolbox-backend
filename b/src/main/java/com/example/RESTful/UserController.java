@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.RESTful;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -40,12 +40,7 @@ public class Security {
                     .csrf().disable()
                     .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .authorizeRequests()
-                    .antMatchers("/directory/**").permitAll()
-                    .antMatchers("/tpi/**").access("hasRole('ROLE_TPI')")
-                    .antMatchers("/jpi/**").access("hasRole('ROLE_JPI')")
-                    .antMatchers("/user/**").permitAll()
-                    .antMatchers("/ppi360/**").access("hasRole('ROLE_360PI')")
-                    .antMatchers("/ppi/**").access("hasRole('ROLE_PPI')");
+                    .antMatchers("/user/**").permitAll();
         }
     }
 }
