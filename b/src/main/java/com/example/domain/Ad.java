@@ -1,5 +1,8 @@
 package com.example.domain;
 
+import com.example.model.AdDTO;
+import com.example.model.UserDTO;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -13,7 +16,7 @@ public class Ad{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int adId;
+    private long adId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", unique = false)
@@ -23,20 +26,24 @@ public class Ad{
     @JoinColumn(name = "category_id", unique = false)
     private Category category;
 
-    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "description", nullable = false)
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar duration;
 
-  /*  @Lob
-    @Column(name="image", columnDefinition="mediumblob")
-    private byte[] image; */
+    // private image?
 
-    public int getAdId() { return adId; }
+    public Ad(){}
+    public Ad(User user, Category category, String title, String description, Calendar duration) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.duration = duration;
+    }
+
+    public long getAdId() { return adId; }
 
     public void setAdId(int adId) { this.adId = adId; }
 
@@ -60,11 +67,4 @@ public class Ad{
 
     public void setDuration(Calendar duration) { this.duration = duration; }
 
-  /*  public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    } */
 }

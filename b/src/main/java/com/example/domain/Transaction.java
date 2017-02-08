@@ -21,10 +21,7 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar date;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Column(name = "sum", nullable = false)
+    private String desciption;
     private int sum;
 
     public Long  getTransactionId() { return transactionId; }
@@ -39,9 +36,9 @@ public class Transaction {
 
     public void setDate(Calendar date) { this.date = date; }
 
-    public String getDescription() { return description; }
+    public String getDescription() { return desciption; }
 
-    public void setDescription(String desciption) { this.description = desciption; }
+    public void setDescription(String desciption) { this.desciption = desciption; }
 
     public int getSum() { return sum; }
 
