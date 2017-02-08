@@ -34,7 +34,15 @@ public class Ad{
 
     // private image?
 
-    public int getAdId() { return adId; }
+    public Ad(){}
+    public Ad(User user, Category category, String title, String description, Calendar duration) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.duration = duration;
+    }
+
     public long getAdId() { return adId; }
 
     public void setAdId(int adId) { this.adId = adId; }

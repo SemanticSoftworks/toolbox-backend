@@ -36,7 +36,9 @@ public class Transaction {
 
     public void setDate(Calendar date) { this.date = date; }
 
+    public String getDescription() { return desciption; }
 
+    public void setDescription(String desciption) { this.desciption = desciption; }
 
     public int getSum() { return sum; }
 
