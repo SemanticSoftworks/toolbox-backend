@@ -4,6 +4,7 @@ import com.example.domain.User;
 import com.example.domain.UserRole;
 import com.example.model.UserAuthenticationDTO;
 import com.example.model.UserDTO;
+import com.example.model.UserDetailDTO;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,22 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getUser(@PathVariable Long id){
+    public ResponseEntity<UserDetailDTO> getUser(@PathVariable Long id){
         User user = userService.findUserById(id);
+        UserDetailDTO userDTO = new UserDetailDTO();
+        logger.info("ID is: "+id);
+        if(user != null){
+            userDTO.setId(user.getId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setLastname(user.getLastName());
+            userDTO.setFirstname(user.getFirstName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
 
-        if(user == null){
-            return "user is null";
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
 
-        return "user id and name: "+id+ " , "+user.getUsername();
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     // base 64 encoding
@@ -50,15 +59,17 @@ public class UserController{
             userToReturn.setFirstname(tmpUser.getFirstName());
             userToReturn.setLastname(tmpUser.getLastName());
 
-            Set<UserRole> roles = tmpUser.getUserRole();
-            List<String> rolesToAdd = new ArrayList<>();
-            for (UserRole role : roles) {
-                rolesToAdd.add(role.getRole().getRole());
-            }
-
-            userToReturn.setUserRoles(rolesToAdd);
+            userToReturn.setUserRoles(extractUserRoles(tmpUser.getUserRole()));
         }
 
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
+    }
+
+    private List<String> extractUserRoles(Set<UserRole> roles){
+        List<String> rolesToAdd = new ArrayList<>();
+        for (UserRole role : roles) {
+            rolesToAdd.add(role.getRole().getRole());
+        }
+        return rolesToAdd;
     }
 }
