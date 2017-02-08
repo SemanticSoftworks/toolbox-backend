@@ -14,7 +14,6 @@ public class UserDTO {
     private String email;
     private List<String> userRoles;
 
-
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

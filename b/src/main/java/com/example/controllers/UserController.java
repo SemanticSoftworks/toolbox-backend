@@ -79,14 +79,7 @@ public class UserController{
         List<TransactionDTO> transactionDTOList = new ArrayList<>();
         for(Transaction mockTransaction : realTransactions){
             TransactionDTO transactionDTO = new TransactionDTO();
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(mockTransaction.getUser().getId());
-            userDTO.setFirstname(mockTransaction.getUser().getFirstName());
-            userDTO.setLastname(mockTransaction.getUser().getLastName());
-            userDTO.setEmail(mockTransaction.getUser().getEmail());
-            userDTO.setUserRoles(extractUserRoles(mockTransaction.getUser().getUserRole()));
 
-            transactionDTO.setUser(userDTO);
             transactionDTO.setDescription(mockTransaction.getDescription());
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setTransactionId(mockTransaction.getTransactionId());
