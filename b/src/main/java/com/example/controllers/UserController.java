@@ -1,12 +1,9 @@
 package com.example.controllers;
 
-import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
-import com.example.model.TransactionDTO;
 import com.example.model.UserAuthenticationDTO;
 import com.example.model.UserDTO;
-import com.example.model.UserDetailDTO;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,22 +26,14 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<UserDetailDTO> getUser(@PathVariable Long id){
+    public String getUser(@PathVariable Long id){
         User user = userService.findUserById(id);
-        UserDetailDTO userDTO = new UserDetailDTO();
-        logger.info("ID is: "+id);
-        if(user != null){
-            userDTO.setId(user.getId());
-            userDTO.setUsername(user.getUsername());
-            userDTO.setLastname(user.getLastName());
-            userDTO.setFirstname(user.getFirstName());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
-            userDTO.setTransactions(extractTransactions(user.getTransactions()));
-            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+        if(user == null){
+            return "user is null";
         }
 
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return "user id and name: "+id+ " , "+user.getUsername();
     }
 
     // base 64 encoding
@@ -61,32 +50,16 @@ public class UserController{
             userToReturn.setFirstname(tmpUser.getFirstName());
             userToReturn.setLastname(tmpUser.getLastName());
 
-            userToReturn.setUserRoles(extractUserRoles(tmpUser.getUserRole()));
+            Set<UserRole> roles = tmpUser.getUserRole();
+            List<String> rolesToAdd = new ArrayList<>();
+            for (UserRole role : roles) {
+                rolesToAdd.add(role.getRole().getRole());
+            }
+
+            userToReturn.setUserRoles(rolesToAdd);
         }
 
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
     }
 
-    private List<String> extractUserRoles(Set<UserRole> roles){
-        List<String> rolesToAdd = new ArrayList<>();
-        for (UserRole role : roles) {
-            rolesToAdd.add(role.getRole().getRole());
-        }
-        return rolesToAdd;
-    }
-
-    private List<TransactionDTO> extractTransactions(List<Transaction> realTransactions){
-        List<TransactionDTO> transactionDTOList = new ArrayList<>();
-        for(Transaction mockTransaction : realTransactions){
-            TransactionDTO transactionDTO = new TransactionDTO();
-
-            transactionDTO.setDescription(mockTransaction.getDescription());
-            transactionDTO.setSum(mockTransaction.getSum());
-            transactionDTO.setTransactionId(mockTransaction.getTransactionId());
-            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate() : null);
-
-            transactionDTOList.add(transactionDTO);
-        }
-        return transactionDTOList;
-    }
 }
