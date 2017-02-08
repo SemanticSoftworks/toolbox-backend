@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.Calendar;
+
 /**
  * Created by alica on 2017-02-08.
  * Good luck, Commander!
@@ -7,7 +9,7 @@ package com.example.model;
 public class TransactionDTO {
     private Long transactionId;
     private UserDTO user;
-    private String date;
+    private Calendar date;
     private String description;
     private int sum;
 
@@ -27,11 +29,11 @@ public class TransactionDTO {
         this.user = user;
     }
 
-    public String getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 

@@ -32,9 +32,9 @@ public class Ad{
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar duration;
 
-    @Lob
-    @Column(name="image", nullable=false, columnDefinition="mediumblob")
-    private byte[] image;
+  /*  @Lob
+    @Column(name="image", columnDefinition="mediumblob")
+    private byte[] image; */
 
     public int getAdId() { return adId; }
 
@@ -60,11 +60,11 @@ public class Ad{
 
     public void setDuration(Calendar duration) { this.duration = duration; }
 
-    public byte[] getImage() {
+  /*  public byte[] getImage() {
         return image;
     }
 
     public void setImage(byte[] image) {
         this.image = image;
-    }
+    } */
 }
