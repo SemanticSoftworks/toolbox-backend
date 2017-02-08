@@ -33,4 +33,15 @@ public class UserServiceImpl implements UserService {
     public User findUserById(Long id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public User addUser(User newUser) {
+        User savedUser = null;
+
+        User userCheck = userRepository.findByUsername(newUser.getUsername());
+        if(userCheck == null)
+            savedUser = userRepository.save(newUser);
+
+        return savedUser;
+    }
 }

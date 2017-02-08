@@ -21,27 +21,28 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public Transaction findTransactionById(Long transactionId) {
-        Transaction tmpTransaction = transactionRepository.findTransactionById(transactionId);
+   /*     Transaction tmpTransaction = transactionRepository.findTransactionById(transactionId);
 
         if(tmpTransaction != null){
             return tmpTransaction;
-        }
+        } */
         return null;
     }//findTransactionById
 
     @Override
     public List<Transaction> findTransactionByUserId(Long userId) {
-        List<Transaction> tmpTransaction = transactionRepository.findTransactionByUserId(userId);
+     /*   List<Transaction> tmpTransaction = transactionRepository.findTransactionByUserId(userId);
 
         if (tmpTransaction != null){
             return tmpTransaction;
-        }
+        } */
         return null;
     }//findTransactionByUserId
 
     @Override
     public int addTransaction(Transaction transaction) {
-        int status = transactionRepository.addTransaction(transaction);
-        return status;
+     //   int status = transactionRepository.addTransaction(transaction);
+     //   return status;
+        return 0;
     }
 }

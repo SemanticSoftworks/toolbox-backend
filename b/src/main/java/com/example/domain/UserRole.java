@@ -14,7 +14,7 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_role_id",
             unique = true)
-    private Integer userRoleId;
+    private Long userRoleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", unique = false, nullable = false)
@@ -24,19 +24,18 @@ public class UserRole {
     @JoinColumn(name = "role_id", unique = false, nullable = false)
     private Role role;
 
-    public UserRole() {
-    }
+    public UserRole() {}
 
     public UserRole(User user, String role) {
         this.user = user;
         this.role.setRole(role);
     }
 
-    public Integer getUserRoleId() {
+    public Long getUserRoleId() {
         return this.userRoleId;
     }
 
-    public void setUserRoleId(Integer userRoleId) {
+    public void setUserRoleId(Long userRoleId) {
         this.userRoleId = userRoleId;
     }
 

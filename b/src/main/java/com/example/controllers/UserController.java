@@ -3,10 +3,9 @@ package com.example.controllers;
 import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
-import com.example.model.TransactionDTO;
-import com.example.model.UserAuthenticationDTO;
-import com.example.model.UserDTO;
-import com.example.model.UserDetailDTO;
+import com.example.model.*;
+import com.example.service.RoleService;
+import com.example.service.UserRoleService;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,12 @@ public class UserController{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDetailDTO> getUser(@PathVariable Long id){
@@ -65,6 +70,39 @@ public class UserController{
         }
 
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/register", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<UserDTO> register(@RequestBody UserRegistrationDTO incomingUser){
+        User tmpUser = userService.findByUserNameAndPassword(incomingUser.getUsername(), incomingUser.getPassword());
+        UserDTO userDTO = new UserDTO();
+
+        if(tmpUser == null){
+            User newUser = new User();
+            newUser.setUsername(incomingUser.getUsername());
+            newUser.setPassword(incomingUser.getPassword());
+            newUser.setEmail(incomingUser.getEmail());
+            newUser.setEnabled(true);
+            newUser.setFirstName(incomingUser.getFirstname());
+            newUser.setLastName(incomingUser.getLastname());
+
+            User mockUser = userService.addUser(newUser);
+
+            if(mockUser != null){
+                UserRole newUserRole = new UserRole();
+                newUserRole.setUser(mockUser);
+                newUserRole.setRole(roleService.getRole("ROLE_AUCTIONEER"));
+                userRoleService.addRole(newUserRole);
+
+                userDTO.setId(mockUser.getId());
+                userDTO.setUsername(mockUser.getUsername());
+                userDTO.setEmail(mockUser.getEmail());
+                userDTO.setFirstname(mockUser.getFirstName());
+                userDTO.setLastname(mockUser.getLastName());
+                userDTO.setUserRoles(extractUserRoles(mockUser.getUserRole()));
+            }
+        }
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){

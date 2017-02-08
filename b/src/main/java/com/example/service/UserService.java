@@ -9,4 +9,5 @@ import com.example.domain.User;
 public interface UserService {
     User findByUserNameAndPassword(String username, String password);
     User findUserById(Long id);
+    User addUser(User newUser);
 }
