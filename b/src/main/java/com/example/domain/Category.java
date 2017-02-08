@@ -20,6 +20,12 @@ public class Category {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<Ad> ads;
 
+    public Category(long categoryId, String name, List<Ad> ads) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.ads = ads;
+    }
+
     public Long  getCategoryId() { return categoryId; }
 
     public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
