@@ -23,13 +23,18 @@ public class Ad{
     @JoinColumn(name = "category_id", unique = false)
     private Category category;
 
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar duration;
 
-    // private image?
+    @Lob
+    @Column(name="image", nullable=false, columnDefinition="mediumblob")
+    private byte[] image;
 
     public int getAdId() { return adId; }
 
@@ -54,4 +59,12 @@ public class Ad{
     public Calendar getDuration() { return duration; }
 
     public void setDuration(Calendar duration) { this.duration = duration; }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }
