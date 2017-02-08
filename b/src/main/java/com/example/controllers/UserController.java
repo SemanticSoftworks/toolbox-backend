@@ -3,10 +3,9 @@ package com.example.controllers;
 import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
-import com.example.model.TransactionDTO;
-import com.example.model.UserAuthenticationDTO;
-import com.example.model.UserDTO;
-import com.example.model.UserDetailDTO;
+import com.example.model.*;
+import com.example.service.RoleService;
+import com.example.service.UserRoleService;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,14 +70,6 @@ public class UserController{
         }
 
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
-    }
-
-    private List<String> extractUserRoles(Set<UserRole> roles){
-        List<String> rolesToAdd = new ArrayList<>();
-        for (UserRole role : roles) {
-            rolesToAdd.add(role.getRole().getRole());
-        }
-        return rolesToAdd;
     }
 
     @RequestMapping(value="/register", method = RequestMethod.POST, consumes={"application/json"})
