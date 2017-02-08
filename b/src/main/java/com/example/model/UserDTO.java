@@ -13,8 +13,7 @@ public class UserDTO {
     private String lastname;
     private String email;
     private List<String> userRoles;
-    private List<AdDTO> ads;
-    private List<TransactionDTO> transactions;
+
 
     public Long getId() { return id; }
 
@@ -39,12 +38,4 @@ public class UserDTO {
     public List<String> getUserRoles() { return userRoles; }
 
     public void setUserRoles(List<String> userRoles) { this.userRoles = userRoles; }
-
-    public List<AdDTO> getAds() { return ads; }
-
-    public void setAds(List<AdDTO> ads) { this.ads = ads; }
-
-    public List<TransactionDTO> getTransactions() { return transactions; }
-
-    public void setTransactions(List<TransactionDTO> transactions) { this.transactions = transactions; }
 }

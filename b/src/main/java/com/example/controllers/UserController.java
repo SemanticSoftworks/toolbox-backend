@@ -1,7 +1,9 @@
 package com.example.controllers;
 
+import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
+import com.example.model.TransactionDTO;
 import com.example.model.UserAuthenticationDTO;
 import com.example.model.UserDTO;
 import com.example.model.UserDetailDTO;
@@ -38,7 +40,7 @@ public class UserController{
             userDTO.setFirstname(user.getFirstName());
             userDTO.setEmail(user.getEmail());
             userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
-
+            userDTO.setTransactions(extractTransactions(user.getTransactions()));
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
 
@@ -71,5 +73,27 @@ public class UserController{
             rolesToAdd.add(role.getRole().getRole());
         }
         return rolesToAdd;
+    }
+
+    private List<TransactionDTO> extractTransactions(List<Transaction> realTransactions){
+        List<TransactionDTO> transactionDTOList = new ArrayList<>();
+        for(Transaction mockTransaction : realTransactions){
+            TransactionDTO transactionDTO = new TransactionDTO();
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(mockTransaction.getUser().getId());
+            userDTO.setFirstname(mockTransaction.getUser().getFirstName());
+            userDTO.setLastname(mockTransaction.getUser().getLastName());
+            userDTO.setEmail(mockTransaction.getUser().getEmail());
+            userDTO.setUserRoles(extractUserRoles(mockTransaction.getUser().getUserRole()));
+
+            transactionDTO.setUser(userDTO);
+            transactionDTO.setDescription(mockTransaction.getDescription());
+            transactionDTO.setSum(mockTransaction.getSum());
+            transactionDTO.setTransactionId(mockTransaction.getTransactionId());
+            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate().toString() : null);
+
+            transactionDTOList.add(transactionDTO);
+        }
+        return transactionDTOList;
     }
 }
