@@ -83,7 +83,7 @@ public class UserController{
             transactionDTO.setDescription(mockTransaction.getDescription());
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setTransactionId(mockTransaction.getTransactionId());
-            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate().toString() : null);
+            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate() : null);
 
             transactionDTOList.add(transactionDTO);
         }
