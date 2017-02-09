@@ -29,7 +29,7 @@ import java.util.Set;
 @RequestMapping("/transaction")
 public class TransactionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
     private TransactionService transactionService;
