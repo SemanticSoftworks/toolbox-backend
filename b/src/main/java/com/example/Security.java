@@ -40,7 +40,8 @@ public class Security {
                     .csrf().disable()
                     .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .authorizeRequests()
-                    .antMatchers("/user/**").permitAll();
+                    .antMatchers("/user/**").permitAll()
+                    .antMatchers("/transaction/**").access("hasRole('ROLE_AUCTIONEER')");
         }
     }
 }

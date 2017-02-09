@@ -1,7 +1,5 @@
 package com.example.model;
 
-import java.util.List;
-
 /**
  * Created by alica on 2017-02-08.
  * Good luck, Commander!
@@ -9,7 +7,11 @@ import java.util.List;
 public class CategoryDTO {
     private Long categoryId;
     private String name;
-    private List<AdDTO> ads;
+
+    public CategoryDTO(Long categoryId, String name){
+        this.categoryId=categoryId;
+        this.name = name;
+    }
 
     public Long getCategoryId() {
         return categoryId;
@@ -25,13 +27,5 @@ public class CategoryDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<AdDTO> getAds() {
-        return ads;
-    }
-
-    public void setAds(List<AdDTO> ads) {
-        this.ads = ads;
     }
 }

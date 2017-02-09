@@ -8,7 +8,6 @@ import java.util.Calendar;
  */
 public class TransactionDTO {
     private Long transactionId;
-    private UserDTO user;
     private Calendar date;
     private String description;
     private int sum;
@@ -17,21 +16,9 @@ public class TransactionDTO {
         return transactionId;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
+    public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
 
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
-    public Calendar getDate() {
-        return date;
-    }
+    public Calendar getDate() { return date; }
 
     public void setDate(Calendar date) {
         this.date = date;

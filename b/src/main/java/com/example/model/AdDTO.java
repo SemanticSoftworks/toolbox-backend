@@ -1,73 +1,51 @@
 package com.example.model;
 
+import com.example.domain.Category;
+
 import java.util.Calendar;
 
 /**
- * Created by alica on 2017-02-08.
- * Good luck, Commander!
+ * Created by Teddy on 2017-02-08.
  */
 public class AdDTO {
-    private int adId;
-    private UserDTO user;
-    private CategoryDTO category;
+
+    private long adId;
+    private long userId;
+    private Category category; // fel --> domain objekt
     private String title;
     private String description;
     private Calendar duration;
-    private byte[] image;
 
-    public int getAdId() {
+    public AdDTO(long adId, long user_id, Category category, String title, String description, Calendar duration) {
+        this.adId = adId;
+        this.userId = user_id;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.duration = duration;
+    }
+
+    public long getAdId() {
         return adId;
     }
 
-    public void setAdId(int adId) {
-        this.adId = adId;
+    public long getUser() {
+        return userId;
     }
 
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
-    public CategoryDTO getCategory() {
+    public Category getCategory() {
         return category;
-    }
-
-    public void setCategory(CategoryDTO category) {
-        this.category = category;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Calendar getDuration() {
         return duration;
-    }
-
-    public void setDuration(Calendar duration) {
-        this.duration = duration;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 }

@@ -21,10 +21,7 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar date;
 
-    @Column(name = "description", nullable = false)
     private String description;
-
-    @Column(name = "sum", nullable = false)
     private int sum;
 
     public Long  getTransactionId() { return transactionId; }
