@@ -1,6 +1,8 @@
 package com.example.common;
 
 import com.jolbox.bonecp.BoneCPDataSource;
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +25,10 @@ public class ApplicationDataSource {
         dataSource.setUsername(environment.getRequiredProperty("spring.datasource.username"));
         dataSource.setPassword(environment.getRequiredProperty("spring.datasource.password"));
         return dataSource;
+    }
+
+    @Bean
+    public SessionFactory sessionFactory(HibernateEntityManagerFactory hibernateEntityManagerFactory) {
+        return hibernateEntityManagerFactory.getSessionFactory();
     }
 }

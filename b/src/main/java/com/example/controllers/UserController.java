@@ -46,6 +46,8 @@ public class UserController{
             userDTO.setEmail(user.getEmail());
             userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
             userDTO.setTransactions(extractTransactions(user.getTransactions()));
+        //    userDTO.setAds(extractAds(user.getAds()));
+
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
 
@@ -113,7 +115,6 @@ public class UserController{
         return rolesToAdd;
     }
 
-
     private List<TransactionDTO> extractTransactions(List<Transaction> realTransactions){
         List<TransactionDTO> transactionDTOList = new ArrayList<>();
         for(Transaction mockTransaction : realTransactions){
@@ -128,4 +129,14 @@ public class UserController{
         }
         return transactionDTOList;
     }
+
+ /*   private List<AdDTO> extractAds(List<Ad> realAds){
+        List<AdDTO> adDTOList = new ArrayList<>();
+        for(Ad mockAd : realAds){
+            // --> väntar på CategoryDTO fix...
+        //    AdDTO adDTO = new AdDTO(mockAd.getAdId(),mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory().getCategoryId(), mockAd.getCategory().getName()), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration());
+        //    adDTOList.add(adDTO);
+        }
+        return adDTOList;
+    } */
 }

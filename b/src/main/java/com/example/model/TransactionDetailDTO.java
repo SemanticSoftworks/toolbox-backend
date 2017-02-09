@@ -3,11 +3,12 @@ package com.example.model;
 import java.util.Calendar;
 
 /**
- * Created by alica on 2017-02-08.
- * Good luck, Commander!
+ * Created by dani on 2017-02-09.
  */
-public class TransactionDTO {
+public class TransactionDetailDTO {
+
     private Long transactionId;
+    private UserDTO user;
     private Calendar date;
     private String description;
     private int sum;
@@ -17,6 +18,14 @@ public class TransactionDTO {
     }
 
     public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
 
     public Calendar getDate() { return date; }
 
