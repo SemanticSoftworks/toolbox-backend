@@ -11,12 +11,12 @@ public class AdDTO {
 
     private long adId;
     private long userId;
-    private Category category; // fel --> domain objekt
+    private CategoryDTO category; // fel --> domain objekt
     private String title;
     private String description;
     private Calendar duration;
 
-    public AdDTO(long adId, long user_id, Category category, String title, String description, Calendar duration) {
+    public AdDTO(long adId, long user_id, CategoryDTO category, String title, String description, Calendar duration) {
         this.adId = adId;
         this.userId = user_id;
         this.category = category;
@@ -33,7 +33,7 @@ public class AdDTO {
         return userId;
     }
 
-    public Category getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
