@@ -27,8 +27,6 @@ public class Category {
         this.ads = ads;
     }
 
-    public Category(){}
-
     public Long  getCategoryId() { return categoryId; }
 
     public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
