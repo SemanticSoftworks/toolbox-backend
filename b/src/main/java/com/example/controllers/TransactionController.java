@@ -3,9 +3,7 @@ package com.example.controllers;
 import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
-import com.example.model.IncomingTransactionDTO;
-import com.example.model.TransactionDetailDTO;
-import com.example.model.UserDTO;
+import com.example.model.*;
 import com.example.service.TransactionService;
 import com.example.service.UserService;
 import org.slf4j.Logger;
@@ -93,6 +91,28 @@ public class TransactionController {
         }
 
         return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getTransactions", method = RequestMethod.GET)
+    public ResponseEntity<TransactionListingDTO> getTransactions(@RequestParam Long startPosition, @RequestParam Long endPosition){
+        TransactionListingDTO transactionListingDTO = new TransactionListingDTO();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        List<Transaction> transactionList = transactionService.findTransactions(userDetails.getUsername(),startPosition,endPosition);
+        List<TransactionDTO> transactionDTOList = new ArrayList<>();
+
+        for(Transaction mockTransaction : transactionList){
+            TransactionDTO transactionDTO = new TransactionDTO();
+            transactionDTO.setSum(mockTransaction.getSum());
+            transactionDTO.setDescription(mockTransaction.getDescription());
+            transactionDTO.setTransactionId(mockTransaction.getTransactionId());
+            transactionDTO.setDate(mockTransaction.getDate());
+
+            transactionDTOList.add(transactionDTO);
+        }
+
+        transactionListingDTO.setTransactionDTOList(transactionDTOList);
+        return new ResponseEntity<>(transactionListingDTO,HttpStatus.OK);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){
