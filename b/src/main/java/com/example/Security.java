@@ -41,6 +41,7 @@ public class Security {
                     .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .authorizeRequests()
                     .antMatchers("/user/**").permitAll()
+                    .antMatchers("/ad/**").permitAll()
                     .antMatchers("/transaction/**").access("hasRole('ROLE_AUCTIONEER')");
         }
     }

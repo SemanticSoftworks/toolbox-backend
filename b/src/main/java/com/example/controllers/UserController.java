@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.domain.Ad;
 import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
@@ -46,9 +47,7 @@ public class UserController{
             userDTO.setEmail(user.getEmail());
             userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
             userDTO.setTransactions(extractTransactions(user.getTransactions()));
-        //    userDTO.setAds(extractAds(user.getAds()));
-
-            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+            userDTO.setAds(extractAds(user.getAds()));
         }
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
@@ -130,13 +129,14 @@ public class UserController{
         return transactionDTOList;
     }
 
- /*   private List<AdDTO> extractAds(List<Ad> realAds){
+    private List<AdDTO> extractAds(List<Ad> realAds){
         List<AdDTO> adDTOList = new ArrayList<>();
-        for(Ad mockAd : realAds){
-            // --> väntar på CategoryDTO fix...
-        //    AdDTO adDTO = new AdDTO(mockAd.getAdId(),mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory().getCategoryId(), mockAd.getCategory().getName()), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration());
-        //    adDTOList.add(adDTO);
+        if(realAds.size() > 0) {
+            for (Ad mockAd : realAds) {
+                AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() !=null? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
+                adDTOList.add(adDTO);
+            }
         }
         return adDTOList;
-    } */
+    }
 }
