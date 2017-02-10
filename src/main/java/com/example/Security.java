@@ -42,6 +42,7 @@ public class Security {
                     .authorizeRequests()
                     .antMatchers("/user/**").permitAll()
                     .antMatchers("/ad/**").permitAll()
+                    .antMatchers("/admin/**").permitAll()
                     .antMatchers("/transaction/**").access("hasRole('ROLE_AUCTIONEER')");
         }
     }

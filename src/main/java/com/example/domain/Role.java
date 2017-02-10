@@ -1,5 +1,8 @@
 package com.example.domain;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +18,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleID;
 
-    @Column(name = "role", length = 45)
+    @Column(name = "role", unique = true,length = 45)
     private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
     public Role(){}
