@@ -1,20 +1,28 @@
 package com.example.service.impl;
 
 import com.example.domain.User;
+import com.example.repositories.UserCustomRepository;
 import com.example.repositories.UserRepository;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by dani on 2017-02-06.
  */
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserCustomRepository userCustomRepository;
 
     @Override
     public User findByUserNameAndPassword(String username, String password) {
@@ -48,5 +56,15 @@ public class UserServiceImpl implements UserService {
             savedUser = userRepository.save(newUser);
 
         return savedUser;
+    }
+
+    @Override
+    public User uppdateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> findAllUsers(Long startPosition, Long endPosition) {
+        return userCustomRepository.getUsers(startPosition,endPosition);
     }
 }

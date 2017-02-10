@@ -13,6 +13,8 @@ public class CategoryDTO {
         this.name = name;
     }
 
+    public CategoryDTO(){}
+
     public Long getCategoryId() {
         return categoryId;
     }

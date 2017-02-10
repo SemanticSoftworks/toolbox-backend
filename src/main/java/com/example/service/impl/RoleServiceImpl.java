@@ -17,11 +17,19 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public Role addRole(Role newRole) {
-        return roleRepository.save(newRole);
+        Role role = roleRepository.findByRole(newRole.getRole());
+        if(role == null)
+            return roleRepository.save(newRole);
+        return null;
     }
 
     @Override
     public Role getRole(String role) {
         return roleRepository.findByRole(role);
+    }
+
+    @Override
+    public Role findById(Integer id) {
+        return roleRepository.findOne(id);
     }
 }
