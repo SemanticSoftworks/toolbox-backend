@@ -1,5 +1,5 @@
 # toolbox-backend
-A sharing economy platform
+A sharing economy platform.
 
 ## Getting started IntelliJ
 Clone with git bash to desired directory.
