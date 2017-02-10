@@ -1,11 +1,14 @@
 package com.example.controllers;
 
+import com.example.domain.Category;
 import com.example.domain.Role;
 import com.example.domain.User;
 import com.example.domain.UserRole;
 import com.example.model.AdminUserAdderDTO;
 import com.example.model.AdminUserDTO;
+import com.example.model.CategoryDTO;
 import com.example.model.RoleDTO;
+import com.example.service.CategoryService;
 import com.example.service.RoleService;
 import com.example.service.UserRoleService;
 import com.example.service.UserService;
@@ -27,11 +30,7 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController{
 
-    // hämta x
-    // ta bort - avaktivera user
-    // redigera i user
-    // add roles
-    // add category
+    // redigera en hel user --> ersätta en user med all ny info
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -44,7 +43,10 @@ public class AdminController{
     @Autowired
     private UserRoleService userRoleService;
 
-    @RequestMapping(value = "/user/getUsers", method = RequestMethod.GET)
+    @Autowired
+    private CategoryService categoryService;
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
         List<AdminUserDTO> userDTOList = new ArrayList<>();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -107,8 +109,8 @@ public class AdminController{
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/user/accountActivation", method = RequestMethod.POST)
-    public ResponseEntity<AdminUserDTO> accountActivation(@RequestParam Long id , @RequestParam Boolean enable){
+    @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
+    public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -127,7 +129,7 @@ public class AdminController{
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/user/changePassword", method = RequestMethod.POST)
+    @RequestMapping(value="/user/changepassword", method = RequestMethod.POST)
     public ResponseEntity<AdminUserDTO> changePassword(@RequestParam Long id , @RequestParam String newPassword){
         AdminUserDTO adminUserDTO= new AdminUserDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -149,18 +151,37 @@ public class AdminController{
 
     // put?
     @RequestMapping(value="/role/add", method = RequestMethod.POST)
-    public ResponseEntity<RoleDTO> addRole(@RequestParam String newRole){
+    public ResponseEntity<RoleDTO> addRole(@RequestParam String role){
         RoleDTO roleDTO = new RoleDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Role role = new Role();
-        role.setRole("ROLE_"+newRole.toUpperCase());
-        role = roleService.addRole(role);
+        Role newRole = new Role();
+        newRole.setRole("ROLE_"+role.toUpperCase());
+        newRole = roleService.addRole(newRole);
 
-        roleDTO.setRoleId(role.getRoleID());
-        roleDTO.setRole(role.getRole());
+        if(newRole != null) {
+            roleDTO.setRoleId(newRole.getRoleID());
+            roleDTO.setRole(newRole.getRole());
+        }
 
         return new ResponseEntity<>(roleDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/category/add", method = RequestMethod.POST)
+    public ResponseEntity<CategoryDTO> addCategory(@RequestParam String category){
+        CategoryDTO categoryDTO = new CategoryDTO();
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Category newCategory = new Category();
+        newCategory.setName(category);
+
+        Category categoryReturned = categoryService.addCategory(newCategory);
+
+        if(categoryReturned != null){
+            categoryDTO.setCategoryId(categoryReturned.getCategoryId());
+            categoryDTO.setName(categoryReturned.getName());
+        }
+
+        return new ResponseEntity<CategoryDTO>(categoryDTO, HttpStatus.OK);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){
