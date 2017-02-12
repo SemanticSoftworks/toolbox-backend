@@ -5,8 +5,6 @@ import com.example.domain.Transaction;
 import com.example.domain.User;
 import com.example.domain.UserRole;
 import com.example.model.*;
-import com.example.service.RoleService;
-import com.example.service.UserRoleService;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +25,6 @@ public class UserController{
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private UserRoleService userRoleService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDetailDTO> getUser(@PathVariable Long id){
@@ -92,8 +84,8 @@ public class UserController{
             if(mockUser != null){
                 UserRole newUserRole = new UserRole();
                 newUserRole.setUser(mockUser);
-                newUserRole.setRole(roleService.getRole("ROLE_AUCTIONEER"));
-                userRoleService.addRole(newUserRole);
+                newUserRole.setRole(userService.getRole("ROLE_AUCTIONEER"));
+                userService.addUserRole(newUserRole);
 
                 userDTO.setId(mockUser.getId());
                 userDTO.setUsername(mockUser.getUsername());
@@ -122,7 +114,7 @@ public class UserController{
             transactionDTO.setDescription(mockTransaction.getDescription());
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setTransactionId(mockTransaction.getTransactionId());
-            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate() : null);
+            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate().getTime().toString() : null);
 
             transactionDTOList.add(transactionDTO);
         }

@@ -1,8 +1,12 @@
 package com.example.service.impl;
 
+import com.example.domain.Role;
 import com.example.domain.User;
+import com.example.domain.UserRole;
+import com.example.repositories.RoleRepository;
 import com.example.repositories.UserCustomRepository;
 import com.example.repositories.UserRepository;
+import com.example.repositories.UserRoleRepository;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -23,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserCustomRepository userCustomRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public User findByUserNameAndPassword(String username, String password) {
@@ -67,4 +77,10 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers(Long startPosition, Long endPosition) {
         return userCustomRepository.getUsers(startPosition,endPosition);
     }
+
+    @Override
+    public Role getRole(String role) { return roleRepository.findByRole(role); }
+
+    @Override
+    public UserRole addUserRole(UserRole newUserRole) { return userRoleRepository.save(newUserRole); }
 }

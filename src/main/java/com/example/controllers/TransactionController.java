@@ -106,7 +106,7 @@ public class TransactionController {
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setDescription(mockTransaction.getDescription());
             transactionDTO.setTransactionId(mockTransaction.getTransactionId());
-            transactionDTO.setDate(mockTransaction.getDate());
+            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate().getTime().toString() : null);
 
             transactionDTOList.add(transactionDTO);
         }

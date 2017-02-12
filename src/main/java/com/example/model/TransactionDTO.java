@@ -1,14 +1,12 @@
 package com.example.model;
 
-import java.util.Calendar;
-
 /**
  * Created by alica on 2017-02-08.
  * Good luck, Commander!
  */
 public class TransactionDTO {
     private Long transactionId;
-    private Calendar date;
+    private String date;
     private String description;
     private int sum;
 
@@ -18,9 +16,9 @@ public class TransactionDTO {
 
     public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
 
-    public Calendar getDate() { return date; }
+    public String getDate() { return date; }
 
-    public void setDate(Calendar date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

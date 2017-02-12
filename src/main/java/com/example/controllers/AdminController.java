@@ -8,10 +8,7 @@ import com.example.model.AdminUserAdderDTO;
 import com.example.model.AdminUserDTO;
 import com.example.model.CategoryDTO;
 import com.example.model.RoleDTO;
-import com.example.service.CategoryService;
-import com.example.service.RoleService;
-import com.example.service.UserRoleService;
-import com.example.service.UserService;
+import com.example.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,7 @@ import java.util.Set;
 public class AdminController{
 
     // redigera en hel user --> ersätta en user med all ny info
+    // redigera transactions
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -38,13 +36,7 @@ public class AdminController{
     private UserService userService;
 
     @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private UserRoleService userRoleService;
-
-    @Autowired
-    private CategoryService categoryService;
+    private AdminService adminService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
@@ -68,7 +60,7 @@ public class AdminController{
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/user/add", method = RequestMethod.POST, consumes={"application/json"})
+    @RequestMapping(value="/user/", method = RequestMethod.POST, consumes={"application/json"})
     public ResponseEntity<AdminUserDTO> register(@RequestBody AdminUserAdderDTO incomingUser){
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AdminUserDTO userDTO = new AdminUserDTO();
@@ -87,13 +79,13 @@ public class AdminController{
 
             if(mockUser != null){
                 for(String role : incomingUser.getUserRoles()){
-                    Role realRole = roleService.getRole(role);
+                    Role realRole = adminService.getRole(role);
                     if(realRole != null) {
 
                         UserRole newUserRole = new UserRole();
                         newUserRole.setUser(mockUser);
                         newUserRole.setRole(realRole);
-                        userRoleService.addRole(newUserRole);
+                        userService.addUserRole(newUserRole);
                     }
                 }
                 userDTO.setId(mockUser.getId());
@@ -150,14 +142,14 @@ public class AdminController{
     }
 
     // put?
-    @RequestMapping(value="/role/add", method = RequestMethod.POST)
+    @RequestMapping(value="/role", method = RequestMethod.POST)
     public ResponseEntity<RoleDTO> addRole(@RequestParam String role){
         RoleDTO roleDTO = new RoleDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Role newRole = new Role();
         newRole.setRole("ROLE_"+role.toUpperCase());
-        newRole = roleService.addRole(newRole);
+        newRole = adminService.addRole(newRole);
 
         if(newRole != null) {
             roleDTO.setRoleId(newRole.getRoleID());
@@ -167,21 +159,21 @@ public class AdminController{
         return new ResponseEntity<>(roleDTO, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/category/add", method = RequestMethod.POST)
+    @RequestMapping(value="/category", method = RequestMethod.POST)
     public ResponseEntity<CategoryDTO> addCategory(@RequestParam String category){
         CategoryDTO categoryDTO = new CategoryDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Category newCategory = new Category();
         newCategory.setName(category);
 
-        Category categoryReturned = categoryService.addCategory(newCategory);
+        Category categoryReturned = adminService.addCategory(newCategory);
 
         if(categoryReturned != null){
             categoryDTO.setCategoryId(categoryReturned.getCategoryId());
             categoryDTO.setName(categoryReturned.getName());
         }
 
-        return new ResponseEntity<CategoryDTO>(categoryDTO, HttpStatus.OK);
+        return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){
