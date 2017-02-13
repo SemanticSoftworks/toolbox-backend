@@ -8,6 +8,7 @@ import com.example.model.AdDTO;
 import com.example.model.CategoryDTO;
 import com.example.model.PhotoDTO;
 import com.example.service.AdService;
+import com.example.service.PhotoService;
 import com.example.service.UserService;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -39,7 +40,7 @@ public class AdController {
     @Autowired
     private UserService userService;
     @Autowired
-    private SessionFactory factory;
+    private PhotoService photoService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<AdDTO> getAd(@PathVariable Long id){
@@ -74,7 +75,7 @@ public class AdController {
     @RequestMapping(value = "/getadimages/{adId}", method = RequestMethod.GET)
     public ResponseEntity<List<PhotoDTO>> getImgsOfAd(@PathVariable int adId)
     {
-        List<PhotoDTO> resultList = convertToPhotoDTOList(photoService.getAllPhotoByAdId(adId).getContent());
+        List<PhotoDTO> resultList = convertToPhotoDTOList(photoService.getPhotosByAdId(adId));
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 

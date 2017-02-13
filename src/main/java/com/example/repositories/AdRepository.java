@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Teddy on 2017-02-08.
  */
-
+@Repository
 public interface AdRepository extends JpaRepository<Ad, Long> {
     Ad findByUser(long userId);
     Ad findByAdId(long id);
