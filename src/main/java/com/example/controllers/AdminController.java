@@ -1,14 +1,10 @@
 package com.example.controllers;
 
-import com.example.domain.Category;
-import com.example.domain.Role;
-import com.example.domain.User;
-import com.example.domain.UserRole;
-import com.example.model.AdminUserAdderDTO;
-import com.example.model.AdminUserDTO;
-import com.example.model.CategoryDTO;
-import com.example.model.RoleDTO;
-import com.example.service.*;
+import com.example.domain.*;
+import com.example.model.*;
+import com.example.service.AdminService;
+import com.example.service.TransactionService;
+import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by dani on 2017-02-10.
@@ -27,8 +21,7 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController{
 
-    // redigera en hel user --> ersätta en user med all ny info
-    // redigera transactions
+    // update role and category!
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -37,6 +30,9 @@ public class AdminController{
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
@@ -53,6 +49,7 @@ public class AdminController{
             userDTO.setLastname(user.getLastName());
             userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
             userDTO.setEnabled(user.isEnabled());
+            userDTO.setPassword(user.getPassword());
 
             userDTOList.add(userDTO);
         }
@@ -60,7 +57,8 @@ public class AdminController{
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/user/", method = RequestMethod.POST, consumes={"application/json"})
+    // admin kan adda user
+    @RequestMapping(value="/user", method = RequestMethod.POST, consumes={"application/json"})
     public ResponseEntity<AdminUserDTO> register(@RequestBody AdminUserAdderDTO incomingUser){
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AdminUserDTO userDTO = new AdminUserDTO();
@@ -95,12 +93,14 @@ public class AdminController{
                 userDTO.setLastname(mockUser.getLastName());
                 userDTO.setUserRoles(extractUserRoles(mockUser.getUserRole()));
                 userDTO.setEnabled(mockUser.isEnabled());
+                userDTO.setPassword(mockUser.getPassword());
             }
         }
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+    // avaktivera - aktivera en user
     @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
     public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
@@ -121,28 +121,92 @@ public class AdminController{
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/user/changepassword", method = RequestMethod.POST)
-    public ResponseEntity<AdminUserDTO> changePassword(@RequestParam Long id , @RequestParam String newPassword){
+    // uppdatera en user --> lägg till userroles --> så man kan lägga til och ta bort --> använd adminuser istället
+    @RequestMapping(value="/user/update", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<AdminUserDTO> updateUser(@RequestBody AdminUserDTO incomingUser){
+
         AdminUserDTO adminUserDTO= new AdminUserDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Set<UserRole> userRoles = new HashSet<>();
+        User user = userService.findUserById(incomingUser.getId());
+        user.setPassword(incomingUser.getPassword());
+        user.setEmail(incomingUser.getEmail());
+        user.setFirstName(incomingUser.getFirstname());
+        user.setLastName(incomingUser.getLastname());
+        user.setEnabled(incomingUser.isEnabled());
+        for(String userRole : incomingUser.getUserRoles()){
+            UserRole realUserRole = new UserRole();
+            realUserRole.setUser(user);
 
-        User user = userService.findUserById(id);
-        user.setPassword(newPassword);
+            Role roleCheck = adminService.getRole(userRole);
+            if(roleCheck != null){
+                realUserRole.setRole(roleCheck);
+            }
+            realUserRole = userService.addUserRole(realUserRole);
+            userRoles.add(realUserRole);
+        }
+        user.setUserRole(userRoles);
+        user.setUserRole(userRoles);
+
         user = userService.uppdateUser(user);
 
-        adminUserDTO.setId(user.getId());
-        adminUserDTO.setUsername(user.getUsername());
-        adminUserDTO.setEmail(user.getEmail());
-        adminUserDTO.setFirstname(user.getFirstName());
-        adminUserDTO.setUserRoles(extractUserRoles(user.getUserRole()));
-        adminUserDTO.setLastname(user.getLastName());
-        adminUserDTO.setEnabled(user.isEnabled());
+        if(user != null) {
+            adminUserDTO.setId(user.getId());
+            adminUserDTO.setUsername(user.getUsername());
+            adminUserDTO.setPassword(user.getPassword());
+            adminUserDTO.setEmail(user.getEmail());
+            adminUserDTO.setFirstname(user.getFirstName());
+            adminUserDTO.setUserRoles(extractUserRoles(user.getUserRole()));
+            adminUserDTO.setLastname(user.getLastName());
+            adminUserDTO.setEnabled(user.isEnabled());
+            return new ResponseEntity<>(adminUserDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(adminUserDTO, HttpStatus.BAD_REQUEST);
+    }
 
-        return new ResponseEntity<>(adminUserDTO, HttpStatus.OK);
+    @RequestMapping(value="/transaction" , method = RequestMethod.POST)
+    public ResponseEntity<TransactionDTO> updateTransaction(@RequestParam TransactionDTO incomingTransaction){
+        TransactionDTO transactionDTO = new TransactionDTO();
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Transaction transaction = transactionService.findByTransactionId(incomingTransaction.getTransactionId());
+        transaction.setSum(incomingTransaction.getSum());
+        transaction.setDescription(incomingTransaction.getDescription());
+        transaction.setDate(Calendar.getInstance());
+
+        transaction = transactionService.addTransaction(transaction);
+        if(transaction != null){
+            transactionDTO.setDate(transaction.getDate().getTime().toString());
+            transactionDTO.setDescription(transaction.getDescription());
+            transactionDTO.setTransactionId(transaction.getTransactionId());
+            transactionDTO.setSum(transaction.getSum());
+
+            return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(transactionDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value="/transaction/{id}" , method = RequestMethod.DELETE)
+    public ResponseEntity<TransactionDTO> deleteTransaction(@PathVariable Long id){
+        TransactionDTO transactionDTO = new TransactionDTO();
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Transaction transaction = adminService.deleteTransactionById(id);
+        if(transaction != null){
+            transactionDTO.setTransactionId(transaction.getTransactionId());
+            transactionDTO.setSum(transaction.getSum());
+            transactionDTO.setDescription(transaction.getDescription());
+            transactionDTO.setDate(transaction.getDate().getTime().toString());
+
+            return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(transactionDTO, HttpStatus.BAD_REQUEST);
     }
 
     // put?
-    @RequestMapping(value="/role", method = RequestMethod.POST)
+    @RequestMapping(value="/role/add", method = RequestMethod.POST)
     public ResponseEntity<RoleDTO> addRole(@RequestParam String role){
         RoleDTO roleDTO = new RoleDTO();
         // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -154,9 +218,28 @@ public class AdminController{
         if(newRole != null) {
             roleDTO.setRoleId(newRole.getRoleID());
             roleDTO.setRole(newRole.getRole());
+            return new ResponseEntity<>(roleDTO, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(roleDTO, HttpStatus.OK);
+        return new ResponseEntity<>(roleDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value="/role/update", method = RequestMethod.POST)
+    public ResponseEntity<RoleDTO> updateRole(@RequestParam RoleDTO incomingRole){
+        RoleDTO roleDTO = new RoleDTO();
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Role role = adminService.findRoleById(incomingRole.getRoleId());
+        role.setRole(incomingRole.getRole());
+        role = adminService.updateRole(role);
+
+        if(role != null){
+            roleDTO.setRoleId(role.getRoleID());
+            roleDTO.setRole(role.getRole());
+            return new ResponseEntity<>(roleDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(roleDTO, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value="/category", method = RequestMethod.POST)
@@ -171,9 +254,27 @@ public class AdminController{
         if(categoryReturned != null){
             categoryDTO.setCategoryId(categoryReturned.getCategoryId());
             categoryDTO.setName(categoryReturned.getName());
+            return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
+        return new ResponseEntity<>(categoryDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value="/category/update", method = RequestMethod.POST)
+    public ResponseEntity<CategoryDTO> updateCategory(@RequestParam CategoryDTO incomingCategory){
+        CategoryDTO categoryDTO = new CategoryDTO();
+
+        Category category = adminService.findCategoryById(incomingCategory.getCategoryId());
+        category.setName(incomingCategory.getName());
+        category = adminService.updateCategory(category);
+
+        if(category != null){
+            categoryDTO.setName(category.getName());
+            categoryDTO.setCategoryId(category.getCategoryId());
+            return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(categoryDTO, HttpStatus.BAD_REQUEST);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){

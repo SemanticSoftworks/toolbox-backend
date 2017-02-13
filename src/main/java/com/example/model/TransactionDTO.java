@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by alica on 2017-02-08.
  * Good luck, Commander!
@@ -9,6 +12,16 @@ public class TransactionDTO {
     private String date;
     private String description;
     private int sum;
+
+    @JsonCreator
+    public TransactionDTO(@JsonProperty("date") String date, @JsonProperty("description") String description, @JsonProperty("sum") int sum, @JsonProperty("transactionId") Long transactionId) {
+        this.transactionId = transactionId;
+        this.date = date;
+        this.description = description;
+        this.sum = sum;
+    }
+
+    public TransactionDTO(){}
 
     public Long getTransactionId() {
         return transactionId;

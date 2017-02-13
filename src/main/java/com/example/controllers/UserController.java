@@ -60,9 +60,10 @@ public class UserController{
             userToReturn.setLastname(tmpUser.getLastName());
 
             userToReturn.setUserRoles(extractUserRoles(tmpUser.getUserRole()));
+            return new ResponseEntity<>(userToReturn, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(userToReturn, HttpStatus.OK);
+        return new ResponseEntity<>(userToReturn, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value="/register", method = RequestMethod.POST, consumes={"application/json"})
@@ -93,9 +94,59 @@ public class UserController{
                 userDTO.setFirstname(mockUser.getFirstName());
                 userDTO.setLastname(mockUser.getLastName());
                 userDTO.setUserRoles(extractUserRoles(mockUser.getUserRole()));
+                return new ResponseEntity<>(userDTO, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return new ResponseEntity<>(userDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    // cant change username & disable!
+    @RequestMapping(value="/update" , method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserRegistrationDTO incomingUser){
+        UserDTO userDTO = new UserDTO();
+
+        User userToUpdate = userService.findByUsername(incomingUser.getUsername());
+        userToUpdate.setPassword(incomingUser.getPassword());
+        userToUpdate.setFirstName(incomingUser.getFirstname());
+        userToUpdate.setLastName(incomingUser.getLastname());
+        userToUpdate.setEmail(incomingUser.getEmail());
+
+        User userReturned = userService.updateUser(userToUpdate);
+        if(userReturned != null){
+            userDTO.setId(userReturned.getId());
+            userDTO.setUsername(userReturned.getUsername());
+            userDTO.setEmail(userReturned.getEmail());
+            userDTO.setUserRoles(extractUserRoles(userReturned.getUserRole()));
+            userDTO.setFirstname(userReturned.getFirstName());
+            userDTO.setLastname(userReturned.getLastName());
+
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(userDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value="/user/forgotpassword", method = RequestMethod.POST)
+    public ResponseEntity< UserUpdateDTO> changePassword(@RequestParam Long id , @RequestParam String newPassword){
+        UserUpdateDTO adminUserDTO= new UserUpdateDTO();
+        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.findUserById(id);
+        user.setPassword(newPassword);
+        user = userService.uppdateUser(user);
+
+        if(user != null) {
+            adminUserDTO.setId(user.getId());
+            adminUserDTO.setUsername(user.getUsername());
+            adminUserDTO.setEmail(user.getEmail());
+            adminUserDTO.setFirstname(user.getFirstName());
+            adminUserDTO.setUserRoles(extractUserRoles(user.getUserRole()));
+            adminUserDTO.setLastname(user.getLastName());
+            adminUserDTO.setPassword(user.getPassword());
+
+            return new ResponseEntity<>(adminUserDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(adminUserDTO, HttpStatus.BAD_REQUEST);
     }
 
     private List<String> extractUserRoles(Set<UserRole> roles){

@@ -19,4 +19,5 @@ public interface UserService {
     List<User> findAllUsers(Long startPosition, Long endPosition);
     Role getRole(String role);
     UserRole addUserRole(UserRole newUserRole);
+    User updateUser(User user);
 }

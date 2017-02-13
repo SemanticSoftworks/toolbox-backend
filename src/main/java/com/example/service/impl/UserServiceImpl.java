@@ -74,13 +74,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers(Long startPosition, Long endPosition) {
-        return userCustomRepository.getUsers(startPosition,endPosition);
-    }
+    public List<User> findAllUsers(Long startPosition, Long endPosition) { return userCustomRepository.getUsers(startPosition,endPosition); }
 
     @Override
     public Role getRole(String role) { return roleRepository.findByRole(role); }
 
     @Override
     public UserRole addUserRole(UserRole newUserRole) { return userRoleRepository.save(newUserRole); }
+
+    @Override
+    public User updateUser(User user) {
+        
+        if(user != null){
+            return userRepository.save(user);
+        }
+        return null;
+    }
 }
