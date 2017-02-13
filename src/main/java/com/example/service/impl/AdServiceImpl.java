@@ -23,7 +23,8 @@ public class AdServiceImpl implements AdService {
     private AdRepository adRepository;
 
     @Override
-    public Ad findAdById(long id) {
+    public Ad findAdById(long id)
+    {
         return adRepository.findByAdId(id);
     }
 

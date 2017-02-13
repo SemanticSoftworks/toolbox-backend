@@ -27,6 +27,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -48,21 +49,26 @@ public class AdController {
         AdDTO ad = toDTO(adService.findAdById(id));
         if(ad == null){
 
-            return new ResponseEntity<>(ad, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(ad, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ResponseEntity<AdDTO> addAd(/*@RequestBody AdDTO adDTO*/) //
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<AdDTO> addAd(@RequestBody AdDTO adDTO)
     {
-        AdDTO test = new AdDTO(-1,1, new CategoryDTO(new Long(1),"test"), "testAdd", "testDescription", Calendar.getInstance());
+        //AdDTO test = new AdDTO(-1,1, new CategoryDTO(new Long(1),"test"), "testAdd", "testDescription", Calendar.getInstance());
 
-        adService.addAd(toAd(test));
+        if(adDTO == null)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        adService.addAd(toAd(adDTO));
 
         //AdDTO addedAdDTO = toDTO(adService.addAd(toAd(adDTO)));
-        return new ResponseEntity<>(test, HttpStatus.OK);
+        return new ResponseEntity<>(adDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getads/{pageNr}", method = RequestMethod.GET)
@@ -70,28 +76,6 @@ public class AdController {
     {
         List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr).getContent());
         return new ResponseEntity<>(resultList, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/getadimages/{adId}", method = RequestMethod.GET)
-    public ResponseEntity<List<PhotoDTO>> getImgsOfAd(@PathVariable int adId)
-    {
-        List<PhotoDTO> resultList = convertToPhotoDTOList(photoService.getPhotosByAdId(adId));
-        return new ResponseEntity<>(resultList, HttpStatus.OK);
-    }
-
-    private List<PhotoDTO> convertToPhotoDTOList(List<Photo> photoList)
-    {
-        ArrayList<PhotoDTO> resultList = new ArrayList<>();
-        for(Photo photo : photoList)
-        {
-            resultList.add(toPhotoDTO(photo));
-        }
-        return resultList;
-    }
-
-    private PhotoDTO toPhotoDTO(Photo photo)
-    {
-        return new PhotoDTO(photo.getId(), photo.getPhotobyte(), photo.getAd().getAdId());
     }
 
     private List<Ad> convertToAdList(List<AdDTO> adList)
@@ -133,24 +117,7 @@ public class AdController {
 
         User adOwner = userService.findUserById(adDTO.getUser());
 
-        byte[] imgBytes = null;
-        try {
-            File file = new File("C:/Users/Teddy/Desktop/testImg.jpeg");
-            FileInputStream input = new FileInputStream(file);
-            imgBytes = new byte[(int) file.length()];
-            input.read(imgBytes);
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Photo phototest = new Photo(imgBytes);
-        ArrayList<Photo> photos = new ArrayList<>();
-        photos.add(phototest);
-
-        return new Ad(adOwner, toCategory(adDTO.getCategory()), adDTO.getTitle(), adDTO.getDescription(), adDTO.getDuration(), photos);
+        return new Ad(adOwner, toCategory(adDTO.getCategory()), adDTO.getTitle(), adDTO.getDescription(), adDTO.getDuration(), null);
     }
 
     private Category toCategory(CategoryDTO categoryDTO)

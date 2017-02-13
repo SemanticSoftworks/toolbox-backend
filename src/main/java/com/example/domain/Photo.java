@@ -21,8 +21,9 @@ public class Photo {
 
     public Photo(){}
 
-    public Photo(byte[] photobyte) {
+    public Photo(long id,byte[] photobyte, Ad ad) {
         this.photobyte = photobyte;
+        this.ad = ad;
     }
 
     public long getId() {
