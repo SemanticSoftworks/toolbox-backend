@@ -62,6 +62,11 @@
 			<artifactId>bonecp-spring</artifactId>
 			<version>0.8.0.RELEASE</version>
 		</dependency>
+		<!-- Bundles JUnit, Mockito and Hamcrest-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
