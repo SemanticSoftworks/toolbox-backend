@@ -3,8 +3,6 @@ package com.example.controllers;
 import com.example.domain.*;
 import com.example.model.*;
 import com.example.service.AdminService;
-import com.example.service.TransactionService;
-import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +24,7 @@ public class AdminController{
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private AdminService adminService;
-
-    @Autowired
-    private TransactionService transactionService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
@@ -62,7 +54,7 @@ public class AdminController{
     public ResponseEntity<AdminUserDTO> register(@RequestBody AdminUserAdderDTO incomingUser){
         AdminUserDTO userDTO = new AdminUserDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User userToAdd = userService.findByUsername(incomingUser.getUsername());
+        User userToAdd = adminService.findByUsername(incomingUser.getUsername());
 
         if(userToAdd == null){
             User newUser = new User();
@@ -73,7 +65,7 @@ public class AdminController{
             newUser.setFirstName(incomingUser.getFirstname());
             newUser.setLastName(incomingUser.getLastname());
 
-            User mockUser = userService.addUser(newUser);
+            User mockUser = adminService.addUser(newUser);
 
             if(mockUser != null){
                 for(String role : incomingUser.getUserRoles()){
@@ -83,7 +75,7 @@ public class AdminController{
                         UserRole newUserRole = new UserRole();
                         newUserRole.setUser(mockUser);
                         newUserRole.setRole(realRole);
-                        userService.addUserRole(newUserRole);
+                        adminService.addUserRole(newUserRole);
                     }
                 }
                 userDTO.setId(mockUser.getId());
@@ -106,9 +98,9 @@ public class AdminController{
         AdminUserDTO userToReturn = new AdminUserDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user = userService.findUserById(id);
+        User user = adminService.findUserById(id);
         user.setEnabled(enable);
-        user = userService.updateUser(user);
+        user = adminService.updateUser(user);
 
         userToReturn.setId(user.getId());
         userToReturn.setUserRoles(extractUserRoles(user.getUserRole()));
@@ -128,7 +120,7 @@ public class AdminController{
         AdminUserDTO adminUserDTO= new AdminUserDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Set<UserRole> userRoles = new HashSet<>();
-        User user = userService.findUserById(incomingUser.getId());
+        User user = adminService.findUserById(incomingUser.getId());
         user.setPassword(incomingUser.getPassword());
         user.setEmail(incomingUser.getEmail());
         user.setFirstName(incomingUser.getFirstname());
@@ -142,13 +134,13 @@ public class AdminController{
             if(roleCheck != null){
                 realUserRole.setRole(roleCheck);
             }
-            realUserRole = userService.addUserRole(realUserRole);
+            realUserRole = adminService.addUserRole(realUserRole);
             userRoles.add(realUserRole);
         }
         user.setUserRole(userRoles);
         user.setUserRole(userRoles);
 
-        user = userService.updateUser(user);
+        user = adminService.updateUser(user);
 
         if(user != null) {
             adminUserDTO.setId(user.getId());
@@ -169,12 +161,12 @@ public class AdminController{
         TransactionDTO transactionDTO = new TransactionDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Transaction transaction = transactionService.findByTransactionId(incomingTransaction.getTransactionId());
+        Transaction transaction = adminService.findByTransactionId(incomingTransaction.getTransactionId());
         transaction.setSum(incomingTransaction.getSum());
         transaction.setDescription(incomingTransaction.getDescription());
         transaction.setDate(Calendar.getInstance());
 
-        transaction = transactionService.addTransaction(transaction);
+        transaction = adminService.addTransaction(transaction);
         if(transaction != null){
             transactionDTO.setDate(transaction.getDate().getTime().toString());
             transactionDTO.setDescription(transaction.getDescription());

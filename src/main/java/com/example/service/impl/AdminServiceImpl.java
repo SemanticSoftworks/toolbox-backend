@@ -29,6 +29,12 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private UserCustomRepository userCustomRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     @Override
     public Category addCategory(Category newCategory) {
         Category category = categoryRepository.findByName(newCategory.getName());
@@ -42,6 +48,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Category updateCategory(Category category) { return categoryRepository.save(category); }
+
+    @Override
+    public UserRole addUserRole(UserRole newUserRole) { return userRoleRepository.save(newUserRole); }
 
     @Override
     public Role addRole(Role newRole) {
@@ -81,5 +90,43 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
+    public User findByUsername(String username) { return userRepository.findByUsername(username); }
+
+    @Override
+    public User addUser(User newUser) {
+        User savedUser = null;
+
+        User userCheck = userRepository.findByUsername(newUser.getUsername());
+        if(userCheck == null)
+            savedUser = userRepository.save(newUser);
+
+        return savedUser;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        if(user != null){
+            return userRepository.save(user);
+        }
+        return null;
+    }
+
+    @Override
+    public User findUserById(Long id) { return userRepository.findById(id); }
+
+    @Override
     public List<User> findAllUsers(Long startPosition, Long endPosition) { return userCustomRepository.getUsers(startPosition,endPosition); }
+
+    @Override
+    public Transaction findByTransactionId(Long id) { return transactionRepository.findByTransactionId(id); }
+
+    @Override
+    public Transaction addTransaction(Transaction newTransaction) {
+        if(newTransaction != null)
+            return transactionRepository.save(newTransaction);
+
+        return null;
+    }
+
+
 }
