@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by dani on 2017-02-15.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @WebAppConfiguration
 public class UserControllerTest {
 
@@ -43,19 +43,6 @@ public class UserControllerTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-
-     /*   GrantedAuthority authority = new SimpleGrantedAuthority("AUCTIONEER");
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(authority);
-
-        UserDetails user = new User("anders", "23", true, true, true, true, authorityList);
-        Authentication authentication = Mockito.mock(Authentication.class);
-
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(securityContext.getAuthentication().getPrincipal()).thenReturn(user);
-
-        SecurityContextHolder.setContext(securityContext); */
     }
 
     @Test
@@ -98,8 +85,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
-    }
+    public void login() throws Exception {}
+
 
     @Test
     public void register() throws Exception {

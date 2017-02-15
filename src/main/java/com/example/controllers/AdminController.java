@@ -108,7 +108,7 @@ public class AdminController{
 
         User user = userService.findUserById(id);
         user.setEnabled(enable);
-        user = userService.uppdateUser(user);
+        user = userService.updateUser(user);
 
         userToReturn.setId(user.getId());
         userToReturn.setUserRoles(extractUserRoles(user.getUserRole()));
@@ -148,7 +148,7 @@ public class AdminController{
         user.setUserRole(userRoles);
         user.setUserRole(userRoles);
 
-        user = userService.uppdateUser(user);
+        user = userService.updateUser(user);
 
         if(user != null) {
             adminUserDTO.setId(user.getId());

@@ -4,7 +4,6 @@ import com.example.domain.Role;
 import com.example.domain.User;
 import com.example.domain.UserRole;
 import com.example.repositories.RoleRepository;
-import com.example.repositories.UserCustomRepository;
 import com.example.repositories.UserRepository;
 import com.example.repositories.UserRoleRepository;
 import com.example.service.UserService;
@@ -22,9 +21,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserCustomRepository userCustomRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -64,11 +60,6 @@ public class UserServiceImpl implements UserService {
             savedUser = userRepository.save(newUser);
 
         return savedUser;
-    }
-
-    @Override
-    public User uppdateUser(User user) {
-        return userRepository.save(user);
     }
 
     @Override

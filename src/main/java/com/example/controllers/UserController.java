@@ -132,7 +132,7 @@ public class UserController{
 
         User user = userService.findUserById(id);
         user.setPassword(newPassword);
-        user = userService.uppdateUser(user);
+        user = userService.updateUser(user);
 
         if(user != null) {
             adminUserDTO.setId(user.getId());
@@ -175,8 +175,10 @@ public class UserController{
     private List<AdDTO> extractAds(List<Ad> realAds){
         List<AdDTO> adDTOList = new ArrayList<>();
         for (Ad mockAd : realAds) {
-            AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() !=null? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
-            adDTOList.add(adDTO);
+            if(mockAd != null) {
+                AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null ? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() != null ? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
+                adDTOList.add(adDTO);
+            }
         }
         return adDTOList;
     }
