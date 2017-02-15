@@ -1,16 +1,12 @@
 package com.example.service.impl;
 
-import com.example.domain.Ad;
-import com.example.domain.Category;
-import com.example.domain.Role;
-import com.example.domain.Transaction;
-import com.example.repositories.AdRepository;
-import com.example.repositories.CategoryRepository;
-import com.example.repositories.RoleRepository;
-import com.example.repositories.TransactionRepository;
+import com.example.domain.*;
+import com.example.repositories.*;
 import com.example.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by dani on 2017-02-12.
@@ -29,6 +25,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Autowired
     private AdRepository adRepository;
+
+    @Autowired
+    private UserCustomRepository userCustomRepository;
 
     @Override
     public Category addCategory(Category newCategory) {
@@ -80,4 +79,7 @@ public class AdminServiceImpl implements AdminService{
 
         return ad;
     }
+
+    @Override
+    public List<User> findAllUsers(Long startPosition, Long endPosition) { return userCustomRepository.getUsers(startPosition,endPosition); }
 }

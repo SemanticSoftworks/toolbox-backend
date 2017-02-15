@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * Created by dani on 2017-02-06.
  */
@@ -72,9 +70,6 @@ public class UserServiceImpl implements UserService {
     public User uppdateUser(User user) {
         return userRepository.save(user);
     }
-
-    @Override
-    public List<User> findAllUsers(Long startPosition, Long endPosition) { return userCustomRepository.getUsers(startPosition,endPosition); }
 
     @Override
     public Role getRole(String role) { return roleRepository.findByRole(role); }

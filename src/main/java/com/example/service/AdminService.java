@@ -1,9 +1,8 @@
 package com.example.service;
 
-import com.example.domain.Ad;
-import com.example.domain.Category;
-import com.example.domain.Role;
-import com.example.domain.Transaction;
+import com.example.domain.*;
+
+import java.util.List;
 
 /**
  * Created by dani on 2017-02-12.
@@ -18,4 +17,5 @@ public interface AdminService {
     Role updateRole(Role updateRole);
     Transaction deleteTransactionById(Long id);
     Ad deleteAdById(long id);
+    List<User> findAllUsers(Long startPosition, Long endPosition);
 }

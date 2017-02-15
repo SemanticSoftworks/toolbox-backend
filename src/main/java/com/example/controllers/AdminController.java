@@ -38,7 +38,7 @@ public class AdminController{
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
         List<AdminUserDTO> userDTOList = new ArrayList<>();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<User> userList = userService.findAllUsers(startPosition,endPosition);
+        List<User> userList = adminService.findAllUsers(startPosition,endPosition);
 
         for(User user : userList){
             AdminUserDTO userDTO = new AdminUserDTO();
@@ -104,7 +104,7 @@ public class AdminController{
     @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
     public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
-        // UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User user = userService.findUserById(id);
         user.setEnabled(enable);

@@ -38,8 +38,8 @@ public class UserController{
             userDTO.setFirstname(user.getFirstName());
             userDTO.setEmail(user.getEmail());
             userDTO.setUserRoles(extractUserRoles(user.getUserRole()));
-            userDTO.setTransactions(extractTransactions(user.getTransactions()));
             userDTO.setAds(extractAds(user.getAds()));
+            userDTO.setTransactions(extractTransactions(user.getTransactions()));
         }
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
@@ -174,11 +174,9 @@ public class UserController{
 
     private List<AdDTO> extractAds(List<Ad> realAds){
         List<AdDTO> adDTOList = new ArrayList<>();
-        if(realAds.size() > 0) {
-            for (Ad mockAd : realAds) {
-                AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() !=null? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
-                adDTOList.add(adDTO);
-            }
+        for (Ad mockAd : realAds) {
+            AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() !=null? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
+            adDTOList.add(adDTO);
         }
         return adDTOList;
     }
