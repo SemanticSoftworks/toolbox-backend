@@ -6,11 +6,7 @@ import com.example.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by Teddy on 2017-02-08.
@@ -44,6 +40,4 @@ public class AdServiceImpl implements AdService {
         PageRequest pageRequest = new PageRequest(pageNr, PAGE_SIZE);
         return adRepository.findAll(pageRequest);
     }
-
-
 }

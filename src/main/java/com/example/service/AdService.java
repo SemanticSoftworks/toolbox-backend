@@ -3,8 +3,6 @@ package com.example.service;
 import com.example.domain.Ad;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 /**
  * Created by Teddy on 2017-02-08.
  */

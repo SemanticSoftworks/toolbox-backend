@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.domain.Ad;
 import com.example.domain.Category;
 import com.example.domain.Role;
 import com.example.domain.Transaction;
@@ -16,4 +17,5 @@ public interface AdminService {
     Role findRoleById(Integer id);
     Role updateRole(Role updateRole);
     Transaction deleteTransactionById(Long id);
+    Ad deleteAdById(long id);
 }

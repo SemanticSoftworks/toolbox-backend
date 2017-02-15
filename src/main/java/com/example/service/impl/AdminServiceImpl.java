@@ -1,8 +1,10 @@
 package com.example.service.impl;
 
+import com.example.domain.Ad;
 import com.example.domain.Category;
 import com.example.domain.Role;
 import com.example.domain.Transaction;
+import com.example.repositories.AdRepository;
 import com.example.repositories.CategoryRepository;
 import com.example.repositories.RoleRepository;
 import com.example.repositories.TransactionRepository;
@@ -24,6 +26,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private AdRepository adRepository;
 
     @Override
     public Category addCategory(Category newCategory) {
@@ -64,5 +69,15 @@ public class AdminServiceImpl implements AdminService{
             transactionRepository.delete(transaction);
         }
         return transaction;
+    }
+
+    @Override
+    public Ad deleteAdById(long id) {
+        Ad ad = adRepository.findByAdId(id);
+
+        if(ad != null)
+            adRepository.delete(ad);
+
+        return ad;
     }
 }

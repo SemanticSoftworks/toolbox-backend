@@ -1,11 +1,7 @@
 package com.example.domain;
 
-import com.example.model.AdDTO;
-import com.example.model.UserDTO;
-
 import javax.persistence.*;
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,11 +34,6 @@ public class Ad{
     @OneToMany(cascade = {CascadeType.ALL}, targetEntity = Photo.class)
     @JoinColumn(name = "ad_id")
     private List<Photo> photos;
-
-
-
-
-
 
     public Ad(){}
     public Ad(User user, Category category, String title, String description, Calendar duration, List<Photo> photos) {

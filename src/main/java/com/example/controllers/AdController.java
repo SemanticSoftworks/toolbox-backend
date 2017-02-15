@@ -2,32 +2,19 @@ package com.example.controllers;
 
 import com.example.domain.Ad;
 import com.example.domain.Category;
-import com.example.domain.Photo;
 import com.example.domain.User;
 import com.example.model.AdDTO;
 import com.example.model.CategoryDTO;
-import com.example.model.PhotoDTO;
 import com.example.service.AdService;
 import com.example.service.PhotoService;
 import com.example.service.UserService;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Blob;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -138,8 +125,6 @@ public class AdController {
 
         return new CategoryDTO(category.getCategoryId(), category.getName());
     }
-
-
 }
 
 
