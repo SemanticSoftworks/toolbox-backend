@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * Created by dani on 2017-02-16.
  */
 @RunWith(MockitoJUnitRunner.class)
-@WebAppConfiguration
 public class PhotoControllerTest {
 
     private MockMvc mockMvc;

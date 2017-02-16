@@ -8,15 +8,18 @@ import com.example.service.AdService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.when;
 
 /**
  * Created by dani on 2017-02-16.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AdServiceImplTest {
 
     @Mock
