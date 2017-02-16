@@ -6,7 +6,6 @@ import com.example.domain.User;
 import com.example.model.AdDTO;
 import com.example.model.CategoryDTO;
 import com.example.service.AdService;
-import com.example.service.PhotoService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +26,6 @@ public class AdController {
     private AdService adService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private PhotoService photoService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<AdDTO> getAd(@PathVariable Long id){
@@ -61,7 +58,7 @@ public class AdController {
     @RequestMapping(value = "/getads/{pageNr}", method = RequestMethod.GET)
     public ResponseEntity<List<AdDTO>> getAllAds(@PathVariable int pageNr)
     {
-        List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr).getContent());
+        List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr));
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 

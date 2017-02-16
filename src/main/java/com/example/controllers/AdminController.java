@@ -189,7 +189,7 @@ public class AdminController{
             transactionDTO.setTransactionId(transaction.getTransactionId());
             transactionDTO.setSum(transaction.getSum());
             transactionDTO.setDescription(transaction.getDescription());
-            transactionDTO.setDate(transaction.getDate().getTime().toString());
+            transactionDTO.setDate(transaction.getDate() != null ? transaction.getDate().getTime().toString() : null);
 
             return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
         }
