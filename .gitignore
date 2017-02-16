@@ -3,3 +3,4 @@ lib/
 target/
 *.iml
 application.properties
+.properties
