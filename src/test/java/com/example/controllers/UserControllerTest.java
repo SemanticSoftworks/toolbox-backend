@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by dani on 2017-02-15.
  */
 @RunWith(MockitoJUnitRunner.class)
-@WebAppConfiguration
 public class UserControllerTest {
 
     private MockMvc mockMvc;
@@ -82,21 +80,5 @@ public class UserControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string("{\"id\":1,\"username\":\"anders\",\"firstname\":null,\"lastname\":null,\"email\":\"anders@kth.se\",\"userRoles\":[\"AUCTIONEER\"],\"ads\":[],\"transactions\":[{\"date\":null,\"description\":\"transaction\",\"sum\":0,\"transactionId\":1}]}"));
 
-    }
-
-    @Test
-    public void login() throws Exception {}
-
-
-    @Test
-    public void register() throws Exception {
-    }
-
-    @Test
-    public void updateUser() throws Exception {
-    }
-
-    @Test
-    public void changePassword() throws Exception {
     }
 }

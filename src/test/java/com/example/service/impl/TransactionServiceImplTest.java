@@ -8,9 +8,11 @@ import com.example.service.TransactionService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by dani on 2017-02-16.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class TransactionServiceImplTest {
 
     @Mock

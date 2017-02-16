@@ -4,10 +4,12 @@ import com.example.domain.*;
 import com.example.service.AdminService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by dani on 2017-02-16.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AdminControllerTest {
 
     private MockMvc mockMvc;
