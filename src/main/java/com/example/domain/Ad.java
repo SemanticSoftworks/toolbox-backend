@@ -1,10 +1,9 @@
 package com.example.domain;
 
-import com.example.model.AdDTO;
-import com.example.model.UserDTO;
-
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by dani on 2017-02-06.
@@ -32,16 +31,20 @@ public class Ad{
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar duration;
 
-    // private image?
+    @OneToMany(cascade = {CascadeType.ALL}, targetEntity = Photo.class)
+    @JoinColumn(name = "ad_id")
+    private List<Photo> photos;
 
     public Ad(){}
-    public Ad(User user, Category category, String title, String description, Calendar duration) {
+    public Ad(User user, Category category, String title, String description, Calendar duration, List<Photo> photos) {
         this.user = user;
         this.category = category;
         this.title = title;
         this.description = description;
         this.duration = duration;
+        this.photos = photos;
     }
+
 
     public long getAdId() { return adId; }
 
@@ -67,4 +70,26 @@ public class Ad{
 
     public void setDuration(Calendar duration) { this.duration = duration; }
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public void addPhoto(Blob photo)
+    {
+        //
+    }
+
+    public void removePhoto(int index)
+    {
+        //this.photos.remove(index);
+    }
+
+   public void clearPhotos()
+   {
+       //this.photos = new ArrayList<>();
+   }
 }

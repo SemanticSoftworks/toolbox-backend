@@ -88,12 +88,13 @@ public class TransactionController {
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setUser(userDTO);
             transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate() : null);
+            return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(transactionDTO, HttpStatus.OK);
+        return new ResponseEntity<>(transactionDTO, HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/getTransactions", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<TransactionListingDTO> getTransactions(@RequestParam Long startPosition, @RequestParam Long endPosition){
         TransactionListingDTO transactionListingDTO = new TransactionListingDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -106,7 +107,7 @@ public class TransactionController {
             transactionDTO.setSum(mockTransaction.getSum());
             transactionDTO.setDescription(mockTransaction.getDescription());
             transactionDTO.setTransactionId(mockTransaction.getTransactionId());
-            transactionDTO.setDate(mockTransaction.getDate());
+            transactionDTO.setDate(mockTransaction.getDate() != null ? mockTransaction.getDate().getTime().toString() : null);
 
             transactionDTOList.add(transactionDTO);
         }

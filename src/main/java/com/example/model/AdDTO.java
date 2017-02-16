@@ -1,7 +1,5 @@
 package com.example.model;
 
-import com.example.domain.Category;
-
 import java.util.Calendar;
 
 /**
@@ -11,7 +9,7 @@ public class AdDTO {
 
     private long adId;
     private long userId;
-    private CategoryDTO category; // fel --> domain objekt
+    private CategoryDTO category;
     private String title;
     private String description;
     private Calendar duration;

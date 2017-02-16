@@ -40,7 +40,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Transaction> transactions;
 
-    public User() {}
+    public User(){}
 
     public User(String username, String password) {
         this.username = username;

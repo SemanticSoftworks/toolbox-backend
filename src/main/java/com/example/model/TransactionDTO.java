@@ -1,6 +1,7 @@
 package com.example.model;
 
-import java.util.Calendar;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by alica on 2017-02-08.
@@ -8,9 +9,19 @@ import java.util.Calendar;
  */
 public class TransactionDTO {
     private Long transactionId;
-    private Calendar date;
+    private String date;
     private String description;
     private int sum;
+
+    @JsonCreator
+    public TransactionDTO(@JsonProperty("date") String date, @JsonProperty("description") String description, @JsonProperty("sum") int sum, @JsonProperty("transactionId") Long transactionId) {
+        this.transactionId = transactionId;
+        this.date = date;
+        this.description = description;
+        this.sum = sum;
+    }
+
+    public TransactionDTO(){}
 
     public Long getTransactionId() {
         return transactionId;
@@ -18,9 +29,9 @@ public class TransactionDTO {
 
     public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
 
-    public Calendar getDate() { return date; }
+    public String getDate() { return date; }
 
-    public void setDate(Calendar date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
