@@ -23,6 +23,8 @@ public class AdminController{
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
+    //list categories + roles
+
     @Autowired
     private AdminService adminService;
 
@@ -212,6 +214,22 @@ public class AdminController{
         return new ResponseEntity<>(adDTO, HttpStatus.BAD_REQUEST);
     }
 
+    @RequestMapping(value="/role", method = RequestMethod.GET)
+    public ResponseEntity<List<RoleDTO>> getRoles(){
+        List<RoleDTO> roleListDTO = new ArrayList<>();
+
+        List<Role> roleList = adminService.getRoles();
+        for(Role role : roleList){
+            RoleDTO roleDTO = new RoleDTO();
+            roleDTO.setRoleId(role.getRoleID());
+            roleDTO.setRole(role.getRole());
+
+            roleListDTO.add(roleDTO);
+        }
+
+        return new ResponseEntity<>(roleListDTO, HttpStatus.OK);
+    }
+
     // put?
     @RequestMapping(value="/role/add", method = RequestMethod.POST)
     public ResponseEntity<RoleDTO> addRole(@RequestParam String role){
@@ -247,6 +265,22 @@ public class AdminController{
         }
 
         return new ResponseEntity<>(roleDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value="/category", method = RequestMethod.GET)
+    public ResponseEntity<List<CategoryDTO>> getCategories(){
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+
+        List<Category> categories = adminService.getCategories();
+        for(Category category : categories){
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setCategoryId(category.getCategoryId());
+            categoryDTO.setName(category.getName());
+
+            categoryDTOList.add(categoryDTO);
+        }
+
+        return new ResponseEntity<>(categoryDTOList, HttpStatus.OK);
     }
 
     @RequestMapping(value="/category", method = RequestMethod.POST)

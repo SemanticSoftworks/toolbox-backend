@@ -179,4 +179,49 @@ public class AdminControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string("{\"adId\":1,\"category\":{\"categoryId\":1,\"name\":\"category\"},\"title\":\"first\",\"description\":\"first ad\",\"duration\":null,\"user\":1}"));
     }
+
+    @Test
+    public void getRoles() throws Exception {
+        List<Role> roleList = new ArrayList<>();
+
+        Role role = new Role();
+        role.setRoleID(1);
+        role.setRole("ROLE_TEST");
+
+        Role r = new Role();
+        r.setRoleID(2);
+        r.setRole("ROLE_BOSS");
+
+        roleList.add(role);
+        roleList.add(r);
+
+        when(adminService.getRoles()).thenReturn(roleList);
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/role"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string("[{\"roleId\":1,\"role\":\"ROLE_TEST\"},{\"roleId\":2,\"role\":\"ROLE_BOSS\"}]"));
+
+    }
+
+    @Test
+    public void getCategories() throws Exception{
+        List<Category> categories = new ArrayList<>();
+
+        Category category = new Category();
+        category.setCategoryId(1L);
+        category.setName("first");
+
+        Category c = new Category();
+        c.setCategoryId(2L);
+        c.setName("second");
+
+        categories.add(category);
+        categories.add(c);
+
+        when(adminService.getCategories()).thenReturn(categories);
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/category"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string("[{\"categoryId\":1,\"name\":\"first\"},{\"categoryId\":2,\"name\":\"second\"}]"));
+    }
 }

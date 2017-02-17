@@ -50,7 +50,13 @@ public class AdminServiceImpl implements AdminService{
     public Category updateCategory(Category category) { return categoryRepository.save(category); }
 
     @Override
+    public List<Category> getCategories() { return categoryRepository.findAll(); }
+
+    @Override
     public UserRole addUserRole(UserRole newUserRole) { return userRoleRepository.save(newUserRole); }
+
+    @Override
+    public List<Role> getRoles() { return roleRepository.findAll(); }
 
     @Override
     public Role addRole(Role newRole) {
