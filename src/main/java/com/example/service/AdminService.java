@@ -11,7 +11,9 @@ public interface AdminService {
     Category addCategory(Category newCategory);
     Category findCategoryById(Long id);
     Category updateCategory(Category category);
+    List<Category> getCategories();
     UserRole addUserRole(UserRole newUserRole);
+    List<Role> getRoles();
     Role addRole(Role newRole);
     Role getRole(String role);
     Role findRoleById(Integer id);
