@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.Hash;
 import com.example.domain.Ad;
 import com.example.domain.Transaction;
 import com.example.domain.User;
@@ -48,8 +49,8 @@ public class UserController{
     // base 64 encoding
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = {"application/json"})
     public ResponseEntity<UserDTO> login(@RequestBody UserAuthenticationDTO incomingUser){
-        User tmpUser = userService.findByUserNameAndPassword(incomingUser.getUsername(), incomingUser.getPassword());
         logger.info("THIS says: username: "+incomingUser.getUsername() + " password: "+incomingUser.getPassword());
+        User tmpUser = userService.findByUserNameAndPassword(incomingUser.getUsername(), incomingUser.getPassword());
         UserDTO userToReturn = new UserDTO();
 
         if(tmpUser != null && tmpUser.isEnabled()){
@@ -68,13 +69,14 @@ public class UserController{
 
     @RequestMapping(value="/register", method = RequestMethod.POST, consumes={"application/json"})
     public ResponseEntity<UserDTO> register(@RequestBody UserRegistrationDTO incomingUser){
+        logger.info("username of incoming user: "+incomingUser.getUsername());
         User tmpUser = userService.findByUserNameAndPassword(incomingUser.getUsername(), incomingUser.getPassword());
         UserDTO userDTO = new UserDTO();
 
         if(tmpUser == null){
             User newUser = new User();
             newUser.setUsername(incomingUser.getUsername());
-            newUser.setPassword(incomingUser.getPassword());
+            newUser.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
             newUser.setEmail(incomingUser.getEmail());
             newUser.setEnabled(true);
             newUser.setFirstName(incomingUser.getFirstname());

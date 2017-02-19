@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.Hash;
 import com.example.domain.*;
 import com.example.model.*;
 import com.example.service.AdminService;
@@ -61,7 +62,7 @@ public class AdminController{
         if(userToAdd == null){
             User newUser = new User();
             newUser.setUsername(incomingUser.getUsername());
-            newUser.setPassword(incomingUser.getPassword());
+            newUser.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
             newUser.setEmail(incomingUser.getEmail());
             newUser.setEnabled(incomingUser.isEnabled());
             newUser.setFirstName(incomingUser.getFirstname());
