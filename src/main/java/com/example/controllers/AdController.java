@@ -27,9 +27,16 @@ public class AdController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/search/{searchString}", method = RequestMethod.GET)
+    public ResponseEntity<List<AdDTO>> search(@PathVariable String searchString){
+
+        List<AdDTO> resultList = this.convertToAdDTOList(adService.searchAdWith(searchString));
+        System.out.println(resultList.size());
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<AdDTO> getAd(@PathVariable Long id){
-
         AdDTO ad = toDTO(adService.findAdById(id));
         if(ad == null){
 
@@ -39,17 +46,17 @@ public class AdController {
         return new ResponseEntity<>(ad, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes={"application/json"})
+    @RequestMapping(value = "/add", method = RequestMethod.GET, consumes={"application/json"})
     public ResponseEntity<AdDTO> addAd(@RequestBody AdDTO adDTO)
     {
-        //AdDTO test = new AdDTO(-1,1, new CategoryDTO(new Long(1),"test"), "testAdd", "testDescription", Calendar.getInstance());
-
+        //AdDTO test = new AdDTO(-1,1, new CategoryDTO(new Long(1),"test"), "titleHere", "descriptionHere", Calendar.getInstance());
+        //adService.addAd(toAd(test));
         if(adDTO == null)
         {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        adService.addAd(toAd(adDTO));
+        //adService.addAd(toAd(adDTO));
 
         //AdDTO addedAdDTO = toDTO(adService.addAd(toAd(adDTO)));
         return new ResponseEntity<>(adDTO, HttpStatus.OK);
@@ -58,7 +65,10 @@ public class AdController {
     @RequestMapping(value = "/getads/{pageNr}", method = RequestMethod.GET)
     public ResponseEntity<List<AdDTO>> getAllAds(@PathVariable int pageNr)
     {
+
+        System.out.println("in /getads");
         List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr));
+
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 

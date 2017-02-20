@@ -12,4 +12,5 @@ public interface AdService {
     Ad findAdByUserId(long userId);
     Ad addAd(Ad ad);
     List<Ad> getAllAds(int pageNr);
+    List<Ad> searchAdWith(String searchString);
 }

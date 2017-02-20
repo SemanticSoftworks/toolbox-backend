@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,4 +41,30 @@ public class AdServiceImpl implements AdService {
         PageRequest pageRequest = new PageRequest(pageNr, PAGE_SIZE);
         return adRepository.findAll(pageRequest).getContent();
     }
+
+
+    @Override
+    public List<Ad> searchAdWith(String searchString) {
+        long adsCount = adRepository.count();
+        int size = (int)Math.ceil((double)adsCount/(double)PAGE_SIZE);
+        //System.out.println("size= "+size+ " count=" + adRepository.count()+ " "+adsCount+"/"+PAGE_SIZE+" = " + size);
+        ArrayList<Ad> resultList = new ArrayList<Ad>();
+        CharSequence searchStr = searchString;
+        for(int i=0;i<size;i++)
+        {
+            System.out.println("i="+i);
+            for(Ad ad : (this.getAllAds(i)))
+            {
+                //System.out.println("ad description = " + ad.getDescription() + " and searchString = " + searchStr);
+                if(ad.getTitle().contains(searchStr) || ad.getDescription().contains(searchStr))
+                {
+                    resultList.add(ad);
+                }
+            }
+        }
+        return resultList;
+    }
+
+
+
 }

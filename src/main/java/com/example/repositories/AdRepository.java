@@ -13,5 +13,5 @@ import java.util.List;
 public interface AdRepository extends JpaRepository<Ad, Long> {
     Ad findByUser(long userId);
     Ad findByAdId(long id);
-
+    Ad findByDescription(String searchString);
 }
