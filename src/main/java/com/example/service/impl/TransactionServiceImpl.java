@@ -30,7 +30,9 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public Transaction addTransaction(Transaction newTransaction) {
-        return transactionRepository.save(newTransaction);
+        if(newTransaction != null)
+            return transactionRepository.save(newTransaction);
+        return null;
     }
 
     @Override
