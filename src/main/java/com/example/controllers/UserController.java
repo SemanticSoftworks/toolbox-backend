@@ -178,7 +178,7 @@ public class UserController{
         List<AdDTO> adDTOList = new ArrayList<>();
         for (Ad mockAd : realAds) {
             if(mockAd != null) {
-                AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(), new CategoryDTO(mockAd.getCategory() != null ? mockAd.getCategory().getCategoryId() : null, mockAd.getCategory() != null ? mockAd.getCategory().getName() : null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
+                AdDTO adDTO = new AdDTO(mockAd.getAdId(), mockAd.getUser().getId(),  (mockAd.getCategory() != null ? mockAd.getCategory().getName():null), mockAd.getTitle(), mockAd.getDescription(), mockAd.getDuration() != null ? mockAd.getDuration() : null);
                 adDTOList.add(adDTO);
             }
         }

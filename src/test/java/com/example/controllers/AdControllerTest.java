@@ -73,7 +73,7 @@ public class AdControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/ad/{id}",1L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string("{\"adId\":1,\"category\":{\"categoryId\":1,\"name\":\"category\"},\"title\":\"test\",\"description\":\"first ad\",\"duration\":null,\"user\":1}"));
+                .andExpect(content().string("{\"adId\":1,\"category\":\"category\",\"description\":\"first ad\",\"duration\":null,\"user\":1,\"title\":\"test\"}"));
     }
 
     @Test
@@ -111,6 +111,6 @@ public class AdControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/ad/getads/{pageNr}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string("[{\"adId\":1,\"category\":{\"categoryId\":1,\"name\":\"category\"},\"title\":\"first\",\"description\":\"first ad\",\"duration\":null,\"user\":1},{\"adId\":2,\"category\":{\"categoryId\":1,\"name\":\"category\"},\"title\":\"second\",\"description\":\"second ad\",\"duration\":null,\"user\":1}]"));
+                .andExpect(content().string("[{\"adId\":1,\"category\":\"category\",\"description\":\"first ad\",\"duration\":null,\"user\":1,\"title\":\"first\"},{\"adId\":2,\"category\":\"category\",\"description\":\"second ad\",\"duration\":null,\"user\":1,\"title\":\"second\"}]"));
     }
 }

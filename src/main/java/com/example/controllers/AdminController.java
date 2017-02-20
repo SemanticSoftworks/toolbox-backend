@@ -208,7 +208,7 @@ public class AdminController{
         Ad ad = adminService.deleteAdById(id);
 
         if(ad != null){
-            adDTO = new AdDTO(ad.getAdId(), ad.getUser().getId(), toCategoryDTO(ad.getCategory()), ad.getTitle(), ad.getDescription(), ad.getDuration());
+            adDTO = new AdDTO(ad.getAdId(), ad.getUser().getId(), toCategoryDTO(ad.getCategory()).getName(), ad.getTitle(), ad.getDescription(), ad.getDuration());
             return new ResponseEntity<>(adDTO, HttpStatus.OK);
         }
 
