@@ -65,12 +65,10 @@ public class AdController {
     @RequestMapping(value = "/getads/{pageNr}", method = RequestMethod.GET)
     public ResponseEntity<List<AdDTO>> getAllAds(@PathVariable int pageNr)
     {
-<<<<<<< HEAD
-        List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr));
-=======
+
         System.out.println("in /getads");
-        List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr).getContent());
->>>>>>> refs/remotes/origin/searchads
+        List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr));
+
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 

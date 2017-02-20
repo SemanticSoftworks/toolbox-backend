@@ -41,8 +41,7 @@ public class AdServiceImpl implements AdService {
         PageRequest pageRequest = new PageRequest(pageNr, PAGE_SIZE);
         return adRepository.findAll(pageRequest).getContent();
     }
-<<<<<<< HEAD
-=======
+
 
     @Override
     public List<Ad> searchAdWith(String searchString) {
@@ -54,7 +53,7 @@ public class AdServiceImpl implements AdService {
         for(int i=0;i<size;i++)
         {
             System.out.println("i="+i);
-            for(Ad ad : (this.getAllAds(i).getContent()))
+            for(Ad ad : (this.getAllAds(i)))
             {
                 //System.out.println("ad description = " + ad.getDescription() + " and searchString = " + searchStr);
                 if(ad.getTitle().contains(searchStr) || ad.getDescription().contains(searchStr))
@@ -67,5 +66,5 @@ public class AdServiceImpl implements AdService {
     }
 
 
->>>>>>> refs/remotes/origin/searchads
+
 }
