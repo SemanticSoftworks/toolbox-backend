@@ -46,7 +46,7 @@ public class AdController {
         return new ResponseEntity<>(ad, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET, consumes={"application/json"})
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes={"application/json"})
     public ResponseEntity<AdDTO> addAd(@RequestBody AdDTO adDTO)
     {
         //AdDTO test = new AdDTO(-1,1, new CategoryDTO(new Long(1),"test"), "titleHere", "descriptionHere", Calendar.getInstance());
@@ -65,7 +65,6 @@ public class AdController {
     @RequestMapping(value = "/getads/{pageNr}", method = RequestMethod.GET)
     public ResponseEntity<List<AdDTO>> getAllAds(@PathVariable int pageNr)
     {
-
         System.out.println("in /getads");
         List<AdDTO> resultList = convertToAdDTOList(adService.getAllAds(pageNr));
 
@@ -99,7 +98,7 @@ public class AdController {
         {
             return null;
         }
-        return new AdDTO(ad.getAdId(), ad.getUser().getId(), toCategoryDTO(ad.getCategory()), ad.getTitle(), ad.getDescription(), ad.getDuration());
+        return new AdDTO(ad.getAdId(), ad.getUser().getId(), toCategoryDTO(ad.getCategory()).getName(), ad.getTitle(), ad.getDescription(), ad.getDuration());
     }
 
     private Ad toAd(AdDTO adDTO)
@@ -114,13 +113,13 @@ public class AdController {
         return new Ad(adOwner, toCategory(adDTO.getCategory()), adDTO.getTitle(), adDTO.getDescription(), adDTO.getDuration(), null);
     }
 
-    private Category toCategory(CategoryDTO categoryDTO)
+    private Category toCategory(String categoryDTO)
     {
         if(categoryDTO == null)
         {
             return null;
         }
-        return new Category(categoryDTO.getCategoryId(), categoryDTO.getName(), null);
+        return new Category(-1, categoryDTO, null);
     }
 
     private CategoryDTO toCategoryDTO(Category category)

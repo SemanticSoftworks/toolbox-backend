@@ -9,16 +9,16 @@ public class AdDTO {
 
     private long adId;
     private long userId;
-    private CategoryDTO category;
-    private String title;
+    private String category;
+    private String title2;
     private String description;
     private Calendar duration;
 
-    public AdDTO(long adId, long user_id, CategoryDTO category, String title, String description, Calendar duration) {
+    public AdDTO(long adId, long user_id, String category, String title, String description, Calendar duration) {
         this.adId = adId;
         this.userId = user_id;
         this.category = category;
-        this.title = title;
+        this.title2 = title;
         this.description = description;
         this.duration = duration;
     }
@@ -31,12 +31,12 @@ public class AdDTO {
         return userId;
     }
 
-    public CategoryDTO getCategory() {
+    public String getCategory() {
         return category;
     }
 
     public String getTitle() {
-        return title;
+        return title2;
     }
 
     public String getDescription() {
