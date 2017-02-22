@@ -108,7 +108,7 @@ public class UserController{
         UserDTO userDTO = new UserDTO();
 
         User userToUpdate = userService.findByUsername(incomingUser.getUsername());
-        userToUpdate.setPassword(incomingUser.getPassword());
+        userToUpdate.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
         userToUpdate.setFirstName(incomingUser.getFirstname());
         userToUpdate.setLastName(incomingUser.getLastname());
         userToUpdate.setEmail(incomingUser.getEmail());

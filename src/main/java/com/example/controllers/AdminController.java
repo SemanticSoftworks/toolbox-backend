@@ -124,7 +124,7 @@ public class AdminController{
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Set<UserRole> userRoles = new HashSet<>();
         User user = adminService.findUserById(incomingUser.getId());
-        user.setPassword(incomingUser.getPassword());
+        user.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
         user.setEmail(incomingUser.getEmail());
         user.setFirstName(incomingUser.getFirstname());
         user.setLastName(incomingUser.getLastname());
