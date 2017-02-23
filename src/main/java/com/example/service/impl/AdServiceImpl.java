@@ -49,14 +49,14 @@ public class AdServiceImpl implements AdService {
         int size = (int)Math.ceil((double)adsCount/(double)PAGE_SIZE);
         //System.out.println("size= "+size+ " count=" + adRepository.count()+ " "+adsCount+"/"+PAGE_SIZE+" = " + size);
         ArrayList<Ad> resultList = new ArrayList<Ad>();
-        CharSequence searchStr = searchString;
+        CharSequence searchStr = searchString.toLowerCase();
         for(int i=0;i<size;i++)
         {
             System.out.println("i="+i);
             for(Ad ad : (this.getAllAds(i)))
             {
                 //System.out.println("ad description = " + ad.getDescription() + " and searchString = " + searchStr);
-                if(ad.getTitle().contains(searchStr) || ad.getDescription().contains(searchStr))
+                if(ad.getTitle().toLowerCase().contains(searchStr) || ad.getDescription().toLowerCase().contains(searchStr))
                 {
                     resultList.add(ad);
                 }
