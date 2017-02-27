@@ -177,7 +177,7 @@ public class AdminControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/admin/ad/{id}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string("{\"adId\":1,\"category\":\"category\",\"description\":\"first ad\",\"duration\":null,\"user\":1,\"title\":\"first\"}"));
+                .andExpect(content().string("{\"adId\":1,\"category\":\"category\",\"title\":\"first\",\"description\":\"first ad\",\"duration\":null,\"user\":1}"));
     }
 
     @Test
