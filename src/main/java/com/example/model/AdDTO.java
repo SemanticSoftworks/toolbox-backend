@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Calendar;
 
 /**
@@ -14,7 +17,13 @@ public class AdDTO {
     private String description;
     private Calendar duration;
 
-    public AdDTO(long adId, long user_id, String category, String title, String description, Calendar duration) {
+    @JsonCreator
+    public AdDTO(@JsonProperty("adId")long adId,
+                 @JsonProperty("user_id")long user_id,
+                 @JsonProperty("category")String category,
+                 @JsonProperty("title")String title,
+                 @JsonProperty("description")String description,
+                 @JsonProperty("duration")Calendar duration) {
         this.adId = adId;
         this.userId = user_id;
         this.category = category;
