@@ -5,12 +5,14 @@ import com.example.repositories.*;
 import com.example.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by dani on 2017-02-12.
  */
+@Transactional
 @Service
 public class AdminServiceImpl implements AdminService{
 
