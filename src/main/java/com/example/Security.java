@@ -41,6 +41,8 @@ public class Security {
                     .csrf().disable()
                     .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .and().authorizeRequests()
                     .antMatchers("/user/**").permitAll()
                     .antMatchers("/ad/**").permitAll()
                     .antMatchers("/photo/**").permitAll()
