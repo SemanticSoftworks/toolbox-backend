@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,11 +41,13 @@ public class Security {
                     .csrf().disable()
                     .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .antMatchers("/user/**").permitAll()
                     .antMatchers("/ad/**").permitAll()
                     .antMatchers("/photo/**").permitAll()
                     .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                     .antMatchers("/transaction/**").access("hasRole('ROLE_AUCTIONEER')");
+
         }
     }
 }
