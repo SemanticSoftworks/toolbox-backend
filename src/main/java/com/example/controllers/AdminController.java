@@ -96,7 +96,7 @@ public class AdminController{
     }
 
     // avaktivera - aktivera en user
-    @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
     public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
 //        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
