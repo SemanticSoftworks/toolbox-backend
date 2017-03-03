@@ -6,7 +6,6 @@ import com.example.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 /**
@@ -56,6 +55,12 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public UserRole addUserRole(UserRole newUserRole) { return userRoleRepository.save(newUserRole); }
+
+    @Override
+    public UserRole deleteUserRole(UserRole newUserRole) {
+        userRoleRepository.delete(newUserRole);
+        return newUserRole;
+    }
 
     @Override
     public List<Role> getRoles() { return roleRepository.findAll(); }
