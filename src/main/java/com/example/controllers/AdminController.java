@@ -32,7 +32,7 @@ public class AdminController{
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
         List<AdminUserDTO> userDTOList = new ArrayList<>();
-    //    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = adminService.findAllUsers(startPosition,endPosition);
 
         for(User user : userList){
@@ -99,7 +99,7 @@ public class AdminController{
     @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
     public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User user = adminService.findUserById(id);
         user.setEnabled(enable);
