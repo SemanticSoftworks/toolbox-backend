@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             throws UsernameNotFoundException {
 
         com.example.domain.User user = userRepository.findByUsername(username);
+
         List<GrantedAuthority> authorities =
                 buildUserAuthority(user.getUserRole());
 

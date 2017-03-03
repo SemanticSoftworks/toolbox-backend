@@ -13,6 +13,7 @@ public interface AdminService {
     Category updateCategory(Category category);
     List<Category> getCategories();
     UserRole addUserRole(UserRole newUserRole);
+    UserRole deleteUserRole(UserRole newUserRole);
     List<Role> getRoles();
     Role addRole(Role newRole);
     Role getRole(String role);

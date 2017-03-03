@@ -32,7 +32,7 @@ public class AdminController{
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<AdminUserDTO>> getUsers(@RequestParam Long startPosition, @RequestParam Long endPosition){
         List<AdminUserDTO> userDTOList = new ArrayList<>();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    //    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = adminService.findAllUsers(startPosition,endPosition);
 
         for(User user : userList){
@@ -96,10 +96,10 @@ public class AdminController{
     }
 
     // avaktivera - aktivera en user
-    @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="/user/accountActivation/{id}", method = RequestMethod.GET)
     public ResponseEntity<AdminUserDTO> accountActivation(@PathVariable Long id , @RequestParam Boolean enable){
         AdminUserDTO userToReturn = new AdminUserDTO();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User user = adminService.findUserById(id);
         user.setEnabled(enable);
@@ -116,33 +116,42 @@ public class AdminController{
         return new ResponseEntity<>(userToReturn, HttpStatus.OK);
     }
 
-    // uppdatera en user --> lägg till userroles --> så man kan lägga til och ta bort --> använd adminuser istället
-    @RequestMapping(value="/user/update", method = RequestMethod.POST, consumes={"application/json"})
-    public ResponseEntity<AdminUserDTO> updateUser(@RequestBody AdminUserDTO incomingUser){
-
-        AdminUserDTO adminUserDTO= new AdminUserDTO();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Set<UserRole> userRoles(List<String> fakeRoles, User user){
         Set<UserRole> userRoles = new HashSet<>();
-        User user = adminService.findUserById(incomingUser.getId());
-        user.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
-        user.setEmail(incomingUser.getEmail());
-        user.setFirstName(incomingUser.getFirstname());
-        user.setLastName(incomingUser.getLastname());
-        user.setEnabled(incomingUser.isEnabled());
-        for(String userRole : incomingUser.getUserRoles()){
+
+        // delete existing userRoles
+        for(UserRole roleToDelete : user.getUserRole()){
+            adminService.deleteUserRole(roleToDelete);
+        }
+
+        // add ones not there
+        for(String userRole : fakeRoles){
             UserRole realUserRole = new UserRole();
             realUserRole.setUser(user);
 
             Role roleCheck = adminService.getRole(userRole);
             if(roleCheck != null){
                 realUserRole.setRole(roleCheck);
+                realUserRole = adminService.addUserRole(realUserRole);
+                userRoles.add(realUserRole);
             }
-            realUserRole = adminService.addUserRole(realUserRole);
-            userRoles.add(realUserRole);
         }
-        user.setUserRole(userRoles);
-        user.setUserRole(userRoles);
 
+        return userRoles;
+    }
+
+    @RequestMapping(value="/user/update", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<AdminUserDTO> updateUser(@RequestBody AdminUserDTO incomingUser){
+
+        AdminUserDTO adminUserDTO= new AdminUserDTO();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = adminService.findUserById(incomingUser.getId());
+        user.setPassword(Hash.BcryptEncrypt(incomingUser.getPassword()));
+        user.setEmail(incomingUser.getEmail());
+        user.setFirstName(incomingUser.getFirstname());
+        user.setLastName(incomingUser.getLastname());
+        user.setEnabled(incomingUser.isEnabled());
+        user.setUserRole(userRoles(incomingUser.getUserRoles(),user));
         user = adminService.updateUser(user);
 
         if(user != null) {
