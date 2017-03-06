@@ -241,8 +241,8 @@ public class AdminController{
     }
 
     // put?
-    @RequestMapping(value="/role/add", method = RequestMethod.POST)
-    public ResponseEntity<RoleDTO> addRole(@RequestParam String role){
+    @RequestMapping(value="/role/add", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<RoleDTO> addRole(@RequestBody String role){
         RoleDTO roleDTO = new RoleDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -259,8 +259,8 @@ public class AdminController{
         return new ResponseEntity<>(roleDTO, HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value="/role/update", method = RequestMethod.POST)
-    public ResponseEntity<RoleDTO> updateRole(@RequestParam RoleDTO incomingRole){
+    @RequestMapping(value="/role/update", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<RoleDTO> updateRole(@RequestBody RoleDTO incomingRole){
         RoleDTO roleDTO = new RoleDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
