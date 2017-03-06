@@ -293,8 +293,8 @@ public class AdminController{
         return new ResponseEntity<>(categoryDTOList, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/category", method = RequestMethod.POST)
-    public ResponseEntity<CategoryDTO> addCategory(@RequestParam String category){
+    @RequestMapping(value="/category", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<CategoryDTO> addCategory(@RequestBody String category){
         CategoryDTO categoryDTO = new CategoryDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
