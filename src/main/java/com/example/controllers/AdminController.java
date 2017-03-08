@@ -312,8 +312,8 @@ public class AdminController{
         return new ResponseEntity<>(categoryDTO, HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value="/category/update", method = RequestMethod.POST)
-    public ResponseEntity<CategoryDTO> updateCategory(@RequestParam CategoryDTO incomingCategory){
+    @RequestMapping(value="/category/update", method = RequestMethod.POST, consumes={"application/json"})
+    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO2 incomingCategory){
         CategoryDTO categoryDTO = new CategoryDTO();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
