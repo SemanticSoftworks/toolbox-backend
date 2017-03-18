@@ -116,6 +116,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<!-- ERR: no manifest attribute ... -->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -125,11 +126,31 @@
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
-							<targetPath>/</targetPath>
+							<targetPath>src/main/docker</targetPath>
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
+				</configuration>
+			</plugin>
+
+			<!-- ERR: no manifest attribute ... -->
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>2.3.1</version>
+			<configuration>
+				<outputDirectory>src/main/docker</outputDirectory>
+			</configuration>
+			</plugin>
+
+			<!-- TMP: ignoring tests when building, expecting DB -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+  backendweb:
+    build: .
+    ports:
+      - "8090:8090"
+    depends_on:
+      - "backenddb"
+    restart: always
+  backenddb:
+    build: ./mysql
+    volumes:
+          - /home/softish/SemanticSoftworks/photo-microservice-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
