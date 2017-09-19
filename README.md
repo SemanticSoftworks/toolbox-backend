@@ -20,7 +20,7 @@ At run button location select
     Edit Configurations... |  + (plus sign) and choose Spring boot
 Set **com.example.SpringModuleApplication** as *"Main class:"*
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/3zMTBdWCFfM/0.jpg)](https://youtu.be/3zMTBdWCFfM "Getting started")
+[![Youtube video thumbnail](http://img.youtube.com/vi/3zMTBdWCFfM/hqdefault.jpg)](https://youtu.be/3zMTBdWCFfM "Getting started")
 
 ## Continuous Integration
 CI is configured with [Jenkins.](http://81.224.130.14:8080/)
